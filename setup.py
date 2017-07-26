@@ -1,0 +1,41 @@
+#!/usr/bin/env python
+# Derivcheck is robust and very sensitive tester for analytic derivatives.
+# Copyright (C) 2017 Toon Verstraelen <Toon.Verstraelen@UGent.be>.
+#
+# This file is part of Derivcheck.
+#
+# Derivcheck is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License
+# as published by the Free Software Foundation; either version 3
+# of the License, or (at your option) any later version.
+#
+# Derivcheck is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program; if not, see <http://www.gnu.org/licenses/>
+#
+# --
+
+from setuptools import setup
+
+setup(
+    name='derivcheck',
+    version='0.0.0',
+    description='A robust and very sensitive tester for analytic derivatives.',
+    author='Toon Verstraelen',
+    author_email='Toon.Verstraelen@UGent.be',
+    url='',
+    py_modules=['derivcheck'],
+    python_requires='==2.7',
+    setup_requires=['nose>=1.0', 'coverage'],
+    classifiers=[
+        'Environment :: Console',
+        'Intended Audience :: Science/Research',
+        'License :: OSI Approved :: GNU General Public License version 3 (GPLv3)',
+        'Operating System :: POSIX :: Linux',
+        'Programming Language :: Python :: 2.7',
+    ],
+)
