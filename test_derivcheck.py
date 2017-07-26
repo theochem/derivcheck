@@ -26,6 +26,8 @@ from nose.tools import assert_raises
 import numpy as np
 
 from derivcheck import *
+from basic_example import main as example_main
+
 
 
 @contextmanager
@@ -117,6 +119,10 @@ def test_derivcheck_nd_weights():
     # reduce weight on x[0] so that romin does not search so far
     weights = np.array([1.e-4, 1.0, 1.0])
     derivcheck(f, g, xs, 0.1, 16, weights=weights, verbose=True)
+
+
+def test_example():
+    example_main()
 
 
 def test_derivcheck_order():
