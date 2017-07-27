@@ -29,7 +29,6 @@ from derivcheck import *
 from basic_example import main as example_main
 
 
-
 @contextmanager
 def numpy_random_seed(seed=None):
     state = np.random.get_state()
@@ -39,7 +38,7 @@ def numpy_random_seed(seed=None):
 
 
 def check_derivcheck_0d(nx, x_shape):
-    f = lambda x: 0.5*np.sum(x**2)
+    f = lambda x: 0.5 * np.sum(x**2)
     g = lambda x: x
     xs = [np.random.normal(0, 1, x_shape) for ix in xrange(nx)]
     derivcheck(f, g, xs, verbose=True)
@@ -55,12 +54,14 @@ def test_derivcheck_0d():
 
 
 def check_derivcheck_nd(nx, x_shape):
-    f = lambda x: 0.5*x**2
+    f = lambda x: 0.5 * x**2
+
     def g(x):
         result = np.zeros(x_shape + x_shape)
         for idx, val in np.lib.index_tricks.ndenumerate(x):
             result[idx + idx] = val
         return result
+
     xs = [np.random.normal(0, 1, x_shape) for ix in xrange(nx)]
     derivcheck(f, g, xs, verbose=True)
 
@@ -73,13 +74,15 @@ def test_derivcheck_nd():
 
 
 def check_derivcheck_extra1(nx):
-    f = lambda x: 0.5*(x**2).sum(axis=1)
+    f = lambda x: 0.5 * (x**2).sum(axis=1)
+
     def g(x):
         result = np.zeros((4, 4, 3), float)
         for i0 in xrange(4):
             for i1 in xrange(3):
                 result[i0, i0, i1] = x[i0, i1]
         return result
+
     xs = [np.random.normal(0, 1, (4, 3)) for ix in xrange(nx)]
     derivcheck(f, g, xs, verbose=True)
 
@@ -104,14 +107,17 @@ def test_derivcheck_nd_zeros():
 
 
 def test_derivcheck_nd_weights():
+
     # function is indeterminate for x[0] <= 1
     def f(x):
         with np.errstate(divide='raise'):
-            return x[1]/max(0, x[0] - 1) + x[2]
+            return x[1] / max(0, x[0] - 1) + x[2]
+
     # gradient is indeterminate for x[0] <= 1
     def g(x):
         with np.errstate(divide='raise'):
-            return np.array([-x[1]/((x[0] - 1)**2), 1/max(0, x[0] - 1), 1.0])
+            return np.array([-x[1] / ((x[0] - 1)**2), 1 / max(0, x[0] - 1), 1.0])
+
     # do searches near the indeterminate region
     xs = np.array([1.03, 4.0, 1.0])
     # romin searches into x[0] < 1
