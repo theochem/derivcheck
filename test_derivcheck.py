@@ -20,6 +20,8 @@
 """Unit tests for derivcheck."""
 
 
+from builtins import range
+
 from nose.tools import assert_raises
 import numpy as np
 
@@ -30,7 +32,7 @@ from basic_example import main as example_main
 def _check_derivcheck_0d(narg, x_shape):
     _function = lambda arg: 0.5 * np.sum(arg**2)
     _gradient = lambda arg: arg
-    args = [np.random.normal(0, 1, x_shape) for _ in xrange(narg)]
+    args = [np.random.normal(0, 1, x_shape) for _ in range(narg)]
     derivcheck(_function, _gradient, args, verbose=True)
 
 
@@ -52,7 +54,7 @@ def _check_derivcheck_nd(narg, x_shape):
             result[idx + idx] = val
         return result
 
-    args = [np.random.normal(0, 1, x_shape) for _ in xrange(narg)]
+    args = [np.random.normal(0, 1, x_shape) for _ in range(narg)]
     derivcheck(_function, _gradient, args, verbose=True)
 
 
@@ -68,12 +70,12 @@ def _check_derivcheck_extra1(narg):
 
     def _gradient(arg):
         result = np.zeros((4, 4, 3), float)
-        for index0 in xrange(4):
-            for index1 in xrange(3):
+        for index0 in range(4):
+            for index1 in range(3):
                 result[index0, index0, index1] = arg[index0, index1]
         return result
 
-    args = [np.random.normal(0, 1, (4, 3)) for _ in xrange(narg)]
+    args = [np.random.normal(0, 1, (4, 3)) for _ in range(narg)]
     derivcheck(_function, _gradient, args, verbose=True)
 
 
@@ -85,7 +87,7 @@ def test_derivcheck_extra1():
 def _check_derivcheck_nd_zeros(narg, x_shape):
     function = lambda arg: np.ones(x_shape)
     gradient = lambda arg: np.zeros(x_shape + x_shape)
-    args = [np.random.normal(0, 1, x_shape) for _ in xrange(narg)]
+    args = [np.random.normal(0, 1, x_shape) for _ in range(narg)]
     derivcheck(function, gradient, args, verbose=True)
 
 
@@ -106,7 +108,7 @@ def test_derivcheck_nd_weights():
     # gradient is indeterminate for arg[0] <= 1
     def _gradient(arg):
         with np.errstate(divide='raise'):
-            return np.array([-arg[1] / ((arg[0] - 1)**2), 1 / max(0, arg[0] - 1), 1.0])
+            return np.array([-arg[1] / (arg[0] - 1)**2, 1 / max(0, arg[0] - 1), 1.0])
 
     # do searches near the indeterminate region
     args = np.array([1.03, 4.0, 1.0])

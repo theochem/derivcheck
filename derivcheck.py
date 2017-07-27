@@ -19,13 +19,17 @@
 # --
 """Robust and sensitive tester for first-order analytic partial derivatives."""
 
+from __future__ import print_function
+
+from builtins import range
+from builtins import object
 
 import numpy as np
 
 
 __all__ = ['derivcheck']
 
-__version__ = '0.0.0'
+__version__ = '0.1.0'
 
 
 # Gauss-Legendre quadrature grids (points and weights) for different orders.
@@ -107,7 +111,7 @@ def _deriv_error(function, gradient, arg, eps=1e-4, order=8):
     """
     # Get the right quadrature points and weights
     if order not in GAUSS_LEGENDRE:
-        raise ValueError('The order must be one of %s' % GAUSS_LEGENDRE.keys())
+        raise ValueError('The order must be one of %s' % list(GAUSS_LEGENDRE.keys()))
     points, weights = GAUSS_LEGENDRE.get(order)
     # Compute the difference between ``function`` at two different points
     delta = function(arg + eps) - function(arg - eps)
@@ -191,7 +195,7 @@ def _deriv_error_array(function, gradient, arg, eps=1e-4, order=8, nrep=None, we
     """
     # run different random line scans
     results = []
-    for _ in xrange(nrep or arg.size**2):
+    for _ in range(nrep or arg.size**2):
         axis = _random_unit(arg.shape, weights)
         linescan = LineScan(function, gradient, arg, axis)
         results.append(_deriv_error(linescan.function, linescan.gradient, 0.0, eps, order))
@@ -265,19 +269,19 @@ def derivcheck(function, gradient, args, eps=1e-4, order=8, nrep=None, rel_ftol=
     deltas_approx = deltas_approx[ndiscard:]
     # some info on screen
     if verbose:
-        print 'Number of comparisons: %5i' % len(deltas)
+        print('Number of comparisons: %5i' % len(deltas))
         with np.errstate(divide='ignore', invalid='ignore'):
             ratios = (deltas_approx - deltas)/abs(deltas)
-        print 'Min relative error:       %10.3e' % np.min(ratios)
-        print 'Max relative error:       %10.3e' % np.max(ratios)
-        print 'Abs Min relative error:   %10.3e' % np.min(abs(ratios))
-        print 'Abs Max relative error:   %10.3e' % np.max(abs(ratios))
-        print 'Threshold:                %10.3e' % rel_ftol
+        print('Min relative error:       %10.3e' % np.min(ratios))
+        print('Max relative error:       %10.3e' % np.max(ratios))
+        print('Abs Min relative error:   %10.3e' % np.min(abs(ratios)))
+        print('Abs Max relative error:   %10.3e' % np.max(abs(ratios)))
+        print('Threshold:                %10.3e' % rel_ftol)
         if np.any(np.isnan(ratios)):
-            print 'Warning: encountered NaN.'
-        print '~~~~~~~i   ~~~~~delta   ~~~~approx   ~~rel.err.'
-        for i in xrange(len(deltas)):
-            print '%8i   %10.3e   %10.3e   %10.3e' % (
-                i, deltas[i], deltas_approx[i], ratios[i])
+            print('Warning: encountered NaN.')
+        print('~~~~~~~i   ~~~~~delta   ~~~~approx   ~~rel.err.')
+        for i in range(len(deltas)):
+            print('%8i   %10.3e   %10.3e   %10.3e' % (
+                i, deltas[i], deltas_approx[i], ratios[i]))
     # final test
     assert np.all(abs(deltas - deltas_approx) <= rel_ftol*abs(deltas))

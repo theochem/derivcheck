@@ -21,7 +21,10 @@
 """Very basic usage example of Derivcheck."""
 
 
+from builtins import range
+
 import numpy as np
+
 from derivcheck import derivcheck
 
 
@@ -38,7 +41,7 @@ def gradient(arg):
 def main():
     """Run the example."""
     # Some reference points at which the derivative must be tested.
-    args = [np.random.normal(0, 1, (4, 3)) for _ in xrange(10)]
+    args = [np.random.normal(0, 1, (4, 3)) for _ in range(10)]
 
     # Test the derivatives at the reference points. See docstring of derivcheck for optional
     # arguments.
