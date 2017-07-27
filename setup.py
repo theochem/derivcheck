@@ -40,7 +40,7 @@ setup(
     author_email='Toon.Verstraelen@UGent.be',
     url='https://github.com/tovrstra/derivcheck',
     py_modules=['derivcheck'],
-    install_requires=['numpy'],
+    install_requires=['numpy', 'future'],
     python_requires='==2.7.*',
     setup_requires=['nose>=1.0', 'coverage'],
     classifiers=[

@@ -21,8 +21,7 @@
 
 from __future__ import print_function
 
-from builtins import range
-from builtins import object
+from builtins import range, object  #pylint: disable=redefined-builtin
 
 import numpy as np
 
@@ -280,8 +279,8 @@ def derivcheck(function, gradient, args, eps=1e-4, order=8, nrep=None, rel_ftol=
         if np.any(np.isnan(ratios)):
             print('Warning: encountered NaN.')
         print('~~~~~~~i   ~~~~~delta   ~~~~approx   ~~rel.err.')
-        for i in range(len(deltas)):
+        for i, (delta, delta_approx, ratio) in enumerate(zip(deltas, deltas_approx, ratios)):
             print('%8i   %10.3e   %10.3e   %10.3e' % (
-                i, deltas[i], deltas_approx[i], ratios[i]))
+                i, delta, delta_approx, ratio))
     # final test
     assert np.all(abs(deltas - deltas_approx) <= rel_ftol*abs(deltas))
