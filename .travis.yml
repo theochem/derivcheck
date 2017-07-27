@@ -7,7 +7,7 @@ branches:
     # skip version tags
     /^\d+\.\d+(\.\d+)$/
 install:
- - pip install pycodestyle pydocstyle nosetests coverage --upgrade
+ - pip install pycodestyle pydocstyle nose coverage --upgrade
 script:
  - python setup.py nosetests --processes=2 --process-timeout=100
  - pycodestyle derivcheck.py basic_example.py setup.py
