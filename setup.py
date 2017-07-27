@@ -30,11 +30,19 @@ Alternatively, you can install from source with
 """
 
 from setuptools import setup
-from derivcheck import __version__
+
+
+def get_version():
+    """Return the version string from the module without importing it."""
+    with open('derivcheck.py') as fpy:
+        for line in fpy:
+            if line.startswith('__version__'):
+                return line.split('\'')[1]
+
 
 setup(
     name='derivcheck',
-    version=__version__,
+    version=get_version(),
     description='A robust and very sensitive tester for analytic derivatives.',
     author='Toon Verstraelen',
     author_email='Toon.Verstraelen@UGent.be',
