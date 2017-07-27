@@ -8,7 +8,7 @@ branches:
     /^\d+\.\d+(\.\d+)$/
 install:
  - pip install pycodestyle pydocstyle nose coverage pylint --upgrade
- - "pip install --only-binary :all: numpy --upgrade
+ - "pip install --only-binary :all: numpy --upgrade"
 script:
  - python setup.py nosetests
  - pycodestyle derivcheck.py basic_example.py setup.py
