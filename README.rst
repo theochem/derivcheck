@@ -7,6 +7,8 @@ Installation
 
 Derivcheck can be installed with pip:
 
+.. code:: bash
+
     pip install derivcheck
 
 
@@ -14,6 +16,8 @@ Testing
 =======
 
 In the source tree, just run nosetests:
+
+.. code:: bash
 
     nosetests
 
