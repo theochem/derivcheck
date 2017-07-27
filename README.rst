@@ -10,6 +10,14 @@ Derivcheck can be installed with pip:
     pip install derivcheck
 
 
+Testing
+=======
+
+In the source tree, just run nosetests:
+
+    nosetests
+
+
 Description of the algorithm
 ============================
 
