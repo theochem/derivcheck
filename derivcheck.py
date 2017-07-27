@@ -23,7 +23,9 @@
 import numpy as np
 
 
-__all__ = ["derivcheck"]
+__all__ = ['derivcheck']
+
+__version__ = '0.0.0'
 
 
 # Gauss-Legendre quadrature grids (points and weights) for different orders.

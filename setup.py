@@ -30,6 +30,7 @@ Alternatively, you can install from source with
 """
 
 from setuptools import setup
+from derivcheck import __version__
 
 setup(
     name='derivcheck',
@@ -37,7 +38,7 @@ setup(
     description='A robust and very sensitive tester for analytic derivatives.',
     author='Toon Verstraelen',
     author_email='Toon.Verstraelen@UGent.be',
-    url='',
+    url='https://github.com/tovrstra/derivcheck',
     py_modules=['derivcheck'],
     python_requires='==2.7',
     setup_requires=['nose>=1.0', 'coverage'],
