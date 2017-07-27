@@ -17,6 +17,7 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>
 #
 # --
+"""Robust and sensitive tester for first-order analytic partial derivatives."""
 
 
 import numpy as np
@@ -55,7 +56,7 @@ gauss_legendre = {
 
 
 def _deriv_error(f, g, x, eps_x=1e-4, order=8):
-    '''Compute the error between difference of f at two points and its FD approximation
+    """Compute the error between difference of f at two points and its FD approximation.
 
     Parameters
     ----------
@@ -83,7 +84,8 @@ def _deriv_error(f, g, x, eps_x=1e-4, order=8):
             The difference between f at the end points of the interval.
     delta_approx : float or np.ndarray
                    The approximation of delta computed with the derivative, ``g``.
-    '''
+
+    """
     # Get the right quadrature points and weights
     if order not in gauss_legendre:
         raise ValueError('The order must be one of %s' % gauss_legendre.keys())
@@ -101,7 +103,7 @@ def _deriv_error(f, g, x, eps_x=1e-4, order=8):
 
 
 def _deriv_error_array(f, g, x, eps_x=1e-4, order=8, nrep=None, weights=1):
-    '''Extension of deriv_error for functions that take arrays as arguments
+    """Extension of deriv_error for functions that take arrays as arguments.
 
     This function performs many one-dimensional tests with _deriv_error along randomly
     chosen directions.
@@ -132,7 +134,8 @@ def _deriv_error_array(f, g, x, eps_x=1e-4, order=8, nrep=None, weights=1):
     delta_approx : float or np.ndarray
         The approximation of delta computed with the derivative, ``g``, for multiple
         random directions.
-    '''
+
+    """
     if nrep is None:
         nrep = x.size**2
     # run different random line scans
@@ -161,7 +164,7 @@ def _deriv_error_array(f, g, x, eps_x=1e-4, order=8, nrep=None, weights=1):
 
 def derivcheck(f, g, xs, eps_x=1e-4, order=8, nrep=None, rel_ftol=1e-3, weights=1,
                discard=0.1, verbose=False):
-    '''Checker for the implementation of partial derivatives
+    """Checker for the implementation of partial derivatives.
 
     This function performs a Gaussian quadrature using g as integrand to approximate
     differences between function values of f. The interval for the integration is a small
@@ -200,7 +203,8 @@ def derivcheck(f, g, xs, eps_x=1e-4, order=8, nrep=None, rel_ftol=1e-3, weights=
     ------
     AssertionError when any of the selected (delta, delta_approx) have a relative error
     larger than the given ``rel_ftol``.
-    '''
+
+    """
     results = []
     if isinstance(xs, float) or isinstance(xs, np.ndarray):
         xs = [xs]

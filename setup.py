@@ -18,6 +18,16 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>
 #
 # --
+"""Derivcheck install script.
+
+If you are not familiar with setup.py, just use pip instead:
+
+    pip install derivcheck --user --upgrade
+
+Alternatively, you can install from source with
+
+    ./setup.py install --user
+"""
 
 from setuptools import setup
 

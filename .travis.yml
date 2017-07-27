@@ -7,9 +7,9 @@ branches:
     # skip version tags
     /^\d+\.\d+(\.\d+)$/
 install:
- - pip install pycodestyle
+ - pip install pycodestyle pydocstyle
 script:
  - python setup.py nosetests --processes=2 --process-timeout=100
- - pycodestyle derivcheck.py
+ - pycodestyle derivcheck.py basic_example.py setup.py
  - pycodestyle --ignore=E731 test_derivcheck.py
- - pycodestyle basic_example.py
+ - pydocstyle setup.py derivcheck.py test_derivcheck.py basic_example.py
