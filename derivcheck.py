@@ -229,19 +229,18 @@ def derivcheck(f, g, xs, eps_x=1e-4, order=8, nrep=None, rel_ftol=1e-3, weights=
     # some info on screen
     if verbose:
         print 'Number of comparisons: %5i' % len(deltas)
-        with np.errstate(divide='ignore'):
+        with np.errstate(divide='ignore', invalid='ignore'):
             ratios = (deltas_approx - deltas)/abs(deltas)
-        print 'Min relative error:       %10.3e' % np.nanmin(ratios)
-        print 'Max relative error:       %10.3e' % np.nanmax(ratios)
-        print 'Abs Min relative error:   %10.3e' % np.nanmin(abs(ratios))
-        print 'Abs Max relative error:   %10.3e' % np.nanmax(abs(ratios))
+        print 'Min relative error:       %10.3e' % np.min(ratios)
+        print 'Max relative error:       %10.3e' % np.max(ratios)
+        print 'Abs Min relative error:   %10.3e' % np.min(abs(ratios))
+        print 'Abs Max relative error:   %10.3e' % np.max(abs(ratios))
         print 'Threshold:                %10.3e' % rel_ftol
         if np.any(np.isnan(ratios)):
             print 'Warning: encountered NaN.'
         print '~~~~~~~i   ~~~~~delta   ~~~~approx   ~~rel.err.'
         for i in xrange(len(deltas)):
             print '%8i   %10.3e   %10.3e   %10.3e' % (
-                i, deltas[i], deltas_approx[i],
-                (deltas_approx[i] - deltas[i])/abs(deltas[i]))
+                i, deltas[i], deltas_approx[i], ratios[i])
     # final test
     assert np.all(abs(deltas - deltas_approx) <= rel_ftol*abs(deltas))

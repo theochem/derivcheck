@@ -29,14 +29,6 @@ from derivcheck import *
 from basic_example import main as example_main
 
 
-@contextmanager
-def numpy_random_seed(seed=None):
-    state = np.random.get_state()
-    np.random.seed(seed)
-    yield None
-    np.random.set_state(state)
-
-
 def check_derivcheck_0d(nx, x_shape):
     f = lambda x: 0.5 * np.sum(x**2)
     g = lambda x: x
@@ -93,17 +85,17 @@ def test_derivcheck_extra1():
 
 
 def check_derivcheck_nd_zeros(nx, x_shape):
-    f = lambda x: np.ones(x.shape)
-    g = lambda x: np.zeros(x.shape)
+    f = lambda x: np.ones(x_shape)
+    g = lambda x: np.zeros(x_shape + x_shape)
     xs = [np.random.normal(0, 1, x_shape) for ix in xrange(nx)]
     derivcheck(f, g, xs, verbose=True)
 
 
 def test_derivcheck_nd_zeros():
-    yield check_derivcheck_nd, 1, (10, )
-    yield check_derivcheck_nd, 1, (3, 4)
-    yield check_derivcheck_nd, 10, (10, )
-    yield check_derivcheck_nd, 10, (3, 4)
+    yield check_derivcheck_nd_zeros, 1, (10, )
+    yield check_derivcheck_nd_zeros, 1, (3, 4)
+    yield check_derivcheck_nd_zeros, 10, (10, )
+    yield check_derivcheck_nd_zeros, 10, (3, 4)
 
 
 def test_derivcheck_nd_weights():
