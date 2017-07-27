@@ -28,10 +28,10 @@ from basic_example import main as example_main
 
 
 def _check_derivcheck_0d(narg, x_shape):
-    function = lambda arg: 0.5 * np.sum(arg**2)
-    gradient = lambda arg: arg
+    _function = lambda arg: 0.5 * np.sum(arg**2)
+    _gradient = lambda arg: arg
     args = [np.random.normal(0, 1, x_shape) for _ in xrange(narg)]
-    derivcheck(function, gradient, args, verbose=True)
+    derivcheck(_function, _gradient, args, verbose=True)
 
 
 def test_derivcheck_0d():
@@ -44,16 +44,16 @@ def test_derivcheck_0d():
 
 
 def _check_derivcheck_nd(narg, x_shape):
-    function = lambda arg: 0.5 * arg**2
+    _function = lambda arg: 0.5 * arg**2
 
-    def gradient(arg):
+    def _gradient(arg):
         result = np.zeros(x_shape + x_shape)
         for idx, val in np.lib.index_tricks.ndenumerate(arg):
             result[idx + idx] = val
         return result
 
     args = [np.random.normal(0, 1, x_shape) for _ in xrange(narg)]
-    derivcheck(function, gradient, args, verbose=True)
+    derivcheck(_function, _gradient, args, verbose=True)
 
 
 def test_derivcheck_nd():
@@ -63,10 +63,10 @@ def test_derivcheck_nd():
     yield _check_derivcheck_nd, 10, (3, 4)
 
 
-def check_derivcheck_extra1(narg):
-    function = lambda arg: 0.5 * (arg**2).sum(axis=1)
+def _check_derivcheck_extra1(narg):
+    _function = lambda arg: 0.5 * (arg**2).sum(axis=1)
 
-    def gradient(arg):
+    def _gradient(arg):
         result = np.zeros((4, 4, 3), float)
         for index0 in xrange(4):
             for index1 in xrange(3):
@@ -74,12 +74,12 @@ def check_derivcheck_extra1(narg):
         return result
 
     args = [np.random.normal(0, 1, (4, 3)) for _ in xrange(narg)]
-    derivcheck(function, gradient, args, verbose=True)
+    derivcheck(_function, _gradient, args, verbose=True)
 
 
 def test_derivcheck_extra1():
-    yield check_derivcheck_extra1, 1
-    yield check_derivcheck_extra1, 10
+    yield _check_derivcheck_extra1, 1
+    yield _check_derivcheck_extra1, 10
 
 
 def _check_derivcheck_nd_zeros(narg, x_shape):
@@ -99,22 +99,23 @@ def test_derivcheck_nd_zeros():
 def test_derivcheck_nd_weights():
 
     # function is indeterminate for arg[0] <= 1
-    def function(arg):
+    def _function(arg):
         with np.errstate(divide='raise'):
             return arg[1] / max(0, arg[0] - 1) + arg[2]
 
     # gradient is indeterminate for arg[0] <= 1
-    def gradient(arg):
+    def _gradient(arg):
         with np.errstate(divide='raise'):
             return np.array([-arg[1] / ((arg[0] - 1)**2), 1 / max(0, arg[0] - 1), 1.0])
 
     # do searches near the indeterminate region
     args = np.array([1.03, 4.0, 1.0])
     # romin searches into arg[0] < 1
-    assert_raises(FloatingPointError, derivcheck, function, gradient, args, 0.1, 16)
+    with assert_raises(FloatingPointError):
+        derivcheck(_function, _gradient, args, 0.1, 16)
     # reduce weight on arg[0] so that romin does not search so far
     weights = np.array([1.e-4, 1.0, 1.0])
-    derivcheck(function, gradient, args, 0.1, 16, weights=weights, verbose=True)
+    derivcheck(_function, _gradient, args, 0.1, 16, weights=weights, verbose=True)
 
 
 def test_example():
