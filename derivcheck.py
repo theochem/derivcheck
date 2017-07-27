@@ -63,6 +63,7 @@ def _random_unit(shape, weights):
     weights : np.ndarray
         The variance of the matrix elements of the return value is proportional to
         weights**2.
+
     """
     norm = 0.0
     while norm < 1e-3:
@@ -134,6 +135,7 @@ class LineScan(object):
             The origin of the line scan.
         axis : np.ndarray
             The direction along which to scan.
+
         """
         self.orig_function = function
         self.orig_gradient = gradient
@@ -141,11 +143,11 @@ class LineScan(object):
         self.axis = axis
 
     def function(self, x):
-        """Function value along the line."""
+        """Compute function value along the line."""
         return self.orig_function(x*self.axis + self.origin)
 
     def gradient(self, x):
-        """Derivative along the line."""
+        """Compute derivative along the line."""
         # nasty chain rule
         return np.tensordot(self.orig_gradient(x*self.axis + self.origin),
                             self.axis, axes=self.axis.ndim)
