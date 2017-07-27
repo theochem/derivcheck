@@ -34,7 +34,7 @@ from derivcheck import __version__
 
 setup(
     name='derivcheck',
-    version='0.0.0',
+    version=__version__,
     description='A robust and very sensitive tester for analytic derivatives.',
     author='Toon Verstraelen',
     author_email='Toon.Verstraelen@UGent.be',

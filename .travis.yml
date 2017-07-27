@@ -9,7 +9,7 @@ branches:
 install:
  - pip install pycodestyle pydocstyle nose coverage pylint --upgrade
 script:
- - python setup.py nosetests
+ - nosetests
  - pycodestyle derivcheck.py basic_example.py setup.py
  - pycodestyle --ignore=E731 test_derivcheck.py
  - pydocstyle setup.py derivcheck.py test_derivcheck.py basic_example.py
