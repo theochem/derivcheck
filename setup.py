@@ -18,7 +18,7 @@
 # along with this program; if not, see <http://www.gnu.org/licenses/>
 #
 # --
-"""Derivcheck install script.
+"""Derivcheck setup script.
 
 If you are not familiar with setup.py, just use pip instead:
 

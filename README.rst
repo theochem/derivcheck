@@ -5,11 +5,17 @@ basic example.
 Installation
 ============
 
-Derivcheck can be installed with pip:
+Derivcheck can be installed with pip (system wide or in a virtual environment):
 
 .. code:: bash
 
     pip install derivcheck
+
+Alternatively, you can install derivcheck in your home directory:
+
+.. code:: bash
+
+    pip install derivcheck --user
 
 
 Testing
