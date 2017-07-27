@@ -21,7 +21,7 @@
 
 from __future__ import print_function
 
-from builtins import range, object  #pylint: disable=redefined-builtin
+from builtins import range, object  # pylint: disable=redefined-builtin
 
 import numpy as np
 
