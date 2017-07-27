@@ -25,24 +25,24 @@ import numpy as np
 from derivcheck import derivcheck
 
 
-def function(x):
+def function(arg):
     """Compute a trivial quadratic function."""
-    return 0.5*(x**2).sum()
+    return 0.5*(arg**2).sum()
 
 
-def gradient(x):
+def gradient(arg):
     """Compute analytic partial derivatives of ``function``."""
-    return x
+    return arg
 
 
 def main():
     """Run the example."""
     # Some reference points at which the derivative must be tested.
-    xs = [np.random.normal(0, 1, (4, 3)) for i_ in xrange(10)]
+    args = [np.random.normal(0, 1, (4, 3)) for _ in xrange(10)]
 
     # Test the derivatives at the reference points. See docstring of derivcheck for optional
     # arguments.
-    derivcheck(function, gradient, xs)
+    derivcheck(function, gradient, args)
 
 
 if __name__ == '__main__':  # pragma: no cover
