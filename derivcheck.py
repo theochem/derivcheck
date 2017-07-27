@@ -110,7 +110,7 @@ def _deriv_error(function, gradient, arg, eps=1e-4, order=8):
     """
     # Get the right quadrature points and weights
     if order not in GAUSS_LEGENDRE:
-        raise ValueError('The order must be one of %s' % list(GAUSS_LEGENDRE.keys()))
+        raise ValueError('The order must be one of {}'.format(list(GAUSS_LEGENDRE.keys())))
     points, weights = GAUSS_LEGENDRE.get(order)
     # Compute the difference between ``function`` at two different points
     delta = function(arg + eps) - function(arg - eps)
@@ -268,19 +268,19 @@ def derivcheck(function, gradient, args, eps=1e-4, order=8, nrep=None, rel_ftol=
     deltas_approx = deltas_approx[ndiscard:]
     # some info on screen
     if verbose:
-        print('Number of comparisons: %5i' % len(deltas))
+        print('Number of comparisons: {:5d}'.format(len(deltas)))
         with np.errstate(divide='ignore', invalid='ignore'):
             ratios = (deltas_approx - deltas)/abs(deltas)
-        print('Min relative error:       %10.3e' % np.min(ratios))
-        print('Max relative error:       %10.3e' % np.max(ratios))
-        print('Abs Min relative error:   %10.3e' % np.min(abs(ratios)))
-        print('Abs Max relative error:   %10.3e' % np.max(abs(ratios)))
-        print('Threshold:                %10.3e' % rel_ftol)
+        print('Min relative error:       {:10.3e}'.format(np.min(ratios)))
+        print('Max relative error:       {:10.3e}'.format(np.max(ratios)))
+        print('Abs Min relative error:   {:10.3e}'.format(np.min(abs(ratios))))
+        print('Abs Max relative error:   {:10.3e}'.format(np.max(abs(ratios))))
+        print('Threshold:                {:10.3e}'.format(rel_ftol))
         if np.any(np.isnan(ratios)):
             print('Warning: encountered NaN.')
         print('~~~~~~~i   ~~~~~delta   ~~~~approx   ~~rel.err.')
         for i, (delta, delta_approx, ratio) in enumerate(zip(deltas, deltas_approx, ratios)):
-            print('%8i   %10.3e   %10.3e   %10.3e' % (
+            print('{:8d}   {:10.3e}   {:10.3e}   {:10.3e}'.format(
                 i, delta, delta_approx, ratio))
     # final test
     assert np.all(abs(deltas - deltas_approx) <= rel_ftol*abs(deltas))
