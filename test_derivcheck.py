@@ -25,7 +25,7 @@ from exceptions import FloatingPointError
 from nose.tools import assert_raises
 import numpy as np
 
-from derivcheck import *
+from derivcheck import derivcheck, _random_unit
 from basic_example import main as example_main
 
 
@@ -123,6 +123,13 @@ def test_example():
     example_main()
 
 
-def test_derivcheck_order():
+def test_derivcheck_exceptions():
     with assert_raises(ValueError):
         derivcheck(None, None, [0.0], 0.1, 7)
+    with assert_raises(NotImplementedError):
+        derivcheck(None, None, [None], 0.1, 7)
+
+
+def test_random_unit():
+    weights = np.array([[3, -1], [0.0, 2]])
+    np.testing.assert_almost_equal(np.linalg.norm(_random_unit(weights.shape, weights)), 1)

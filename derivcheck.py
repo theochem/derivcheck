@@ -55,14 +55,30 @@ gauss_legendre = {
 }
 
 
-def _deriv_error(f, g, x, eps_x=1e-4, order=8):
-    """Compute the error between difference of f at two points and its FD approximation.
+def _random_unit(shape, weights):
+    """Generate a random normalized array, with given shape.
 
     Parameters
     ----------
-    f : function
+    weights : np.ndarray
+        The variance of the matrix elements of the return value is proportional to
+        weights**2.
+    """
+    norm = 0.0
+    while norm < 1e-3:
+        unit = np.random.normal(0, 1, shape)*weights
+        norm = np.sqrt((unit**2).sum())
+    return unit / norm
+
+
+def _deriv_error(function, gradient, x, eps_x=1e-4, order=8):
+    """Compute the difference between two function values and its integral approximation.
+
+    Parameters
+    ----------
+    function : function
         Computes the function value for a given x.
-    g : function
+    gradient : function
         Computes the derivative for a given x.
     x : float
         The center of the interval at which the test is performed.
@@ -71,29 +87,29 @@ def _deriv_error(f, g, x, eps_x=1e-4, order=8):
     order : int (2, 4, 8, 16)
         The number of grid points in the quadrature.
 
-    This function computes the difference of f(x+eps_x) - f(x-eps_x). It also computes
-    the integral of the derivative with Gaussian quadrature, which should be very close
-    to the former.
+    This function computes the difference of ``function(x+eps_x) - function(x-eps_x)``. It
+    also computes the integral of the derivative with Gaussian quadrature, which should be
+    very close to the former.
 
-    The functions f and g may return scalars or arrays. The return values will have
-    compatible data types.
+    The functions ``function`` and ``gradient`` may return scalars or arrays. The return
+    values will have compatible data types.
 
     Returns
     -------
     delta : float or np.ndarray
-            The difference between f at the end points of the interval.
+        The difference between the function value at the end points of the interval.
     delta_approx : float or np.ndarray
-                   The approximation of delta computed with the derivative, ``g``.
+        The approximation of delta computed with the derivative, ``gradient``.
 
     """
     # Get the right quadrature points and weights
     if order not in gauss_legendre:
         raise ValueError('The order must be one of %s' % gauss_legendre.keys())
     points, weights = gauss_legendre.get(order)
-    # Compute the difference between f at two different points
-    delta = f(x + eps_x) - f(x - eps_x)
+    # Compute the difference between ``function`` at two different points
+    delta = function(x + eps_x) - function(x - eps_x)
     # Approximate that difference with Gaussian quadrature, with some sanity checks
-    derivs = np.array([g(x + eps_x*p) for p in points])
+    derivs = np.array([gradient(x + eps_x*p) for p in points])
     assert delta.shape == derivs.shape[1:delta.ndim+1]
     if len(derivs.shape) > 1:
         assert derivs.shape[1:] == delta.shape
@@ -102,7 +118,40 @@ def _deriv_error(f, g, x, eps_x=1e-4, order=8):
     return delta, delta_approx
 
 
-def _deriv_error_array(f, g, x, eps_x=1e-4, order=8, nrep=None, weights=1):
+class LineScan(object):
+    """Make function taking scalar argument to scan along multiple dimensions of array function."""
+
+    def __init__(self, function, gradient, origin, axis):
+        """Initialize a LineScan object.
+
+        Parameters
+        ----------
+        function : function
+            The function taking an array argument.
+        gradient : function
+            The function computing the gradient, taking an array argument.
+        origin : np.ndarray
+            The origin of the line scan.
+        axis : np.ndarray
+            The direction along which to scan.
+        """
+        self.orig_function = function
+        self.orig_gradient = gradient
+        self.origin = origin
+        self.axis = axis
+
+    def function(self, x):
+        """Function value along the line."""
+        return self.orig_function(x*self.axis + self.origin)
+
+    def gradient(self, x):
+        """Derivative along the line."""
+        # nasty chain rule
+        return np.tensordot(self.orig_gradient(x*self.axis + self.origin),
+                            self.axis, axes=self.axis.ndim)
+
+
+def _deriv_error_array(function, gradient, x, eps_x=1e-4, order=8, nrep=None, weights=1):
     """Extension of deriv_error for functions that take arrays as arguments.
 
     This function performs many one-dimensional tests with _deriv_error along randomly
@@ -110,9 +159,9 @@ def _deriv_error_array(f, g, x, eps_x=1e-4, order=8, nrep=None, weights=1):
 
     Parameters
     ----------
-    f : function
+    function : function
         Computes the function value for a given x.
-    g : function
+    gradient : function
         Computes the derivative for a given x.
     x : np.ndarray
         The reference point for multiple calls to _deriv_error.
@@ -129,53 +178,37 @@ def _deriv_error_array(f, g, x, eps_x=1e-4, order=8, nrep=None, weights=1):
     Returns
     -------
     delta : float or np.ndarray
-        The difference between f at the end points of the interval, for multiple random
-        directions
+        The difference between ``function`` at the end points of the interval, for
+        multiple random directions.
     delta_approx : float or np.ndarray
-        The approximation of delta computed with the derivative, ``g``, for multiple
-        random directions.
+        The approximation of delta computed with the derivative, ``gradient``, for
+        multiple random directions.
 
     """
-    if nrep is None:
-        nrep = x.size**2
     # run different random line scans
     results = []
-    for irep in xrange(nrep):
-        # Generate a generalized random unit vector.
-        while True:
-            unit = np.random.normal(0, 1, x.shape)*weights
-            norm = np.sqrt((unit**2).sum())
-            if norm > 1e-3:
-                unit /= norm
-                break
-
-        # Define f and g along the one-dimensional scan
-        def f_scan(x_scan):
-            return f(x_scan*unit + x)
-
-        def g_scan(x_scan):
-            # nasty chain rule
-            return np.tensordot(g(x_scan*unit + x), unit, axes=unit.ndim)
-
-        # Collect results
-        results.append(_deriv_error(f_scan, g_scan, 0.0, eps_x, order))
+    for _ in xrange(nrep or x.size**2):
+        axis = _random_unit(x.shape, weights)
+        linescan = LineScan(function, gradient, x, axis)
+        results.append(_deriv_error(linescan.function, linescan.gradient, 0.0, eps_x, order))
     return results
 
 
-def derivcheck(f, g, xs, eps_x=1e-4, order=8, nrep=None, rel_ftol=1e-3, weights=1,
+def derivcheck(function, gradient, xs, eps_x=1e-4, order=8, nrep=None, rel_ftol=1e-3, weights=1,
                discard=0.1, verbose=False):
     """Checker for the implementation of partial derivatives.
 
-    This function performs a Gaussian quadrature using g as integrand to approximate
-    differences between function values of f. The interval for the integration is a small
-    range around one or more reference points, xs. If the argument of f and g is an array,
-    random line scans are done around the reference point.
+    This function performs a Gaussian quadrature using ``gradient`` as integrand to
+    approximate differences between ``function`` values. The interval for the integration
+    is a small range around one or more reference points, ``xs``. If the argument of
+    ``function`` and ``gradient`` is an array, random line scans are done around the
+    reference point.
 
     Parameters
     ----------
-    f : function
+    function : function
         Computes the function value for a given x.
-    g : function
+    gradient : function
         Computes the derivative for a given x.
     xs : float, np.ndarray, or list thereof
         Reference point(s) for _deriv_error or _deriv_error_array. If only one float or
@@ -206,13 +239,13 @@ def derivcheck(f, g, xs, eps_x=1e-4, order=8, nrep=None, rel_ftol=1e-3, weights=
 
     """
     results = []
-    if isinstance(xs, float) or isinstance(xs, np.ndarray):
+    if isinstance(xs, (float, np.ndarray)):
         xs = [xs]
     for x in xs:
         if isinstance(x, float):
-            results.append(_deriv_error(f, g, x, eps_x, order))
+            results.append(_deriv_error(function, gradient, x, eps_x, order))
         elif isinstance(x, np.ndarray):
-            results.extend(_deriv_error_array(f, g, x, eps_x, order, nrep, weights))
+            results.extend(_deriv_error_array(function, gradient, x, eps_x, order, nrep, weights))
         else:
             raise NotImplementedError
     # make arrays
