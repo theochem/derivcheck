@@ -73,7 +73,10 @@ def diff_ridder(function, x, h, con=1.4, safe=2.0, maxiter=15):
         raise ValueError('safe must be larger than one.')
 
     con2 = con*con
-    table = [[(function(x + h) - function(x - h))/(2.0*h)]]
+    table = [[(
+        np.asarray(function(x + h))
+        -np.asarray(function(x - h))
+    )/(2.0*h)]]
     estimate = None
     error = None
 
@@ -85,7 +88,8 @@ def diff_ridder(function, x, h, con=1.4, safe=2.0, maxiter=15):
         h /= con;
         # First-order approximation at current step size.
         table.append([(
-            np.asarray(function(x + h)) - np.asarray(function(x - h))
+            np.asarray(function(x + h))
+            -np.asarray(function(x - h))
         )/(2.0*h)])
         # Compute higher-orders
         fac = con2
@@ -115,13 +119,30 @@ def diff_ridder(function, x, h, con=1.4, safe=2.0, maxiter=15):
 
 
 class OneDimWrapper(object):
-    def __init__(self, function, origin, axis):
+    """Construct a function of a one-dimensional argument from an array function."""
+
+    def __init__(self, function, origin, indices):
+        """Initialize a OneDimWrapper object.
+
+        Parameters
+        ----------
+        function : function
+            The original function with an array argument.
+        origin : np.ndarray
+            The origin, corresponds to the one-dimensional argument equal to 0.
+        indices : tuple
+            The index of the matrix element of the input array to use
+
+        """
         self.function = function
         self.origin = origin
-        self.axis = axis
+        self.indices = indices
 
     def __call__(self, x):
-        return self.function(self.origin + self.axis*x)
+        """Compute the one-dimensional function."""
+        arg = self.origin.copy()
+        arg[self.indices] += x
+        return self.function(arg)
 
 
 def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol=1e-5, atol=1e-8):
@@ -130,15 +151,20 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
     Parameters
     ----------
     function : function
-        The function whose derivatives must be tested.
+        The function whose derivatives must be tested, takes one argument, which may be
+        a scalar or an array with shape ``shape_in``. It may also return an array with
+        shape ``shape_out``.
     gradient : function
-        Computes the gradient of the function, to be tested.
+        Computes the gradient of the function, to be tested. It takes one argument, same
+        type as ``function``. The return value is an array with shape ``shape_out +
+        shape_in``.
     origin : np.ndarray
         The point at which the derivatives are computed.
     widths : float or np.ndarray
         The initial (maximal) step size for the finite difference method. Do not take
         a value that is too small. When an array, each matrix element of the input of the
-        function gets a different step size. Set to zero to skip an element.
+        function gets a different step size. Set to zero to skip an element. The function
+        will not be sampled beyond [origin-widths, origin+widths].
     output_mask : np.ndarray or None
         When given, selects the outputs of function to be tested. Only relevant for
         functions that return arrays.
@@ -152,34 +178,50 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
     AssertionError when the error on the derivative is too large.
 
     """
+    # Make sure origin is always an array object.
     origin = np.asarray(origin)
+
+    # Compute the gradient and give it the 1D or 2D shape. The first index is a raveled
+    # output index.
     gradient = np.asarray(gradient(origin))
     if output_mask is not None:
         gradient = gradient[output_mask]
+    if origin.ndim == 0:
+        gradient = gradient.ravel()
     else:
         gradient = gradient.reshape(-1, origin.size)
 
+    # Flat loop ofer all elements of the input array
     for iaxis in range(origin.size):
+        # Get the corresponding input array indices.
         if origin.ndim == 0:
             indices = ()
         else:
             indices = np.unravel_index(iaxis, origin.shape)
-        axis = np.zeros(origin.shape)
-        axis[indices] = 1.0
+
+        # Determine the step size
         if isinstance(widths, float):
             h = widths
         else:
             h = widths[indices]
+
+        # If needed, test this component
         if h > 0:
-            wrapper = OneDimWrapper(function, origin, axis)
+            # Make a function of only the selected input array element.
+            wrapper = OneDimWrapper(function, origin, indices)
+            # Compute the numerical derivative of this function and an error estimate.
             deriv_approx, deriv_error = diff_ridder(wrapper, 0.0, h)
+            # Get the corresponding analytic derivative.
+            deriv = gradient[..., iaxis]
+            # Make sure the error on the derivative is smaller than the requested
+            # thresholds.
+            if deriv_error >= atol and deriv_error >= rtol*abs(deriv).max():
+                raise AssertionError('Inaccurate estimate of the derivative for iaxis={}.'.format(indices))
+            # Flatten the array with numerical derivatives.
             if output_mask is None:
                 deriv_approx = deriv_approx.ravel()
             else:
                 deriv_approx = deriv_approx[output_mask]
-            deriv = gradient[:, iaxis]
-            if deriv_error >= atol and deriv_error >= rtol*abs(deriv).max():
-                raise AssertionError('Inaccurate estimate of derivative.')
-            print(iaxis, deriv, deriv_approx)
-            err_msg = 'case {} {}'.format(iaxis, indices)
+            # Compare
+            err_msg = 'derivative toward {} x=analytic y=numeric stepsize={:g}'.format(indices, h)
             np.testing.assert_allclose(deriv, deriv_approx, rtol, atol, err_msg=err_msg)
