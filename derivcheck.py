@@ -216,7 +216,7 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
             # Make sure the error on the derivative is smaller than the requested
             # thresholds.
             if deriv_error >= atol and deriv_error >= rtol*abs(deriv).max():
-                raise AssertionError('Inaccurate estimate of the derivative for iaxis={}.'.format(indices))
+                raise FloatingPointError('Inaccurate estimate of the derivative for iaxis={}.'.format(indices))
             # Flatten the array with numerical derivatives.
             if output_mask is None:
                 deriv_approx = deriv_approx.ravel()

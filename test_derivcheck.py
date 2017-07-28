@@ -170,7 +170,7 @@ def test_assert_deriv_corner_cases():
     _function = lambda arg: np.exp(arg).sum()
     _gradient = lambda arg: np.exp(arg)
     arg = np.ones((3, 3))
-    with assert_raises(AssertionError):
+    with assert_raises(FloatingPointError):
         assert_deriv(_function, _gradient, arg, 0.1, rtol=0, atol=0)
 
 

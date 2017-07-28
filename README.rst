@@ -1,3 +1,6 @@
+.. image:: https://travis-ci.org/tovrstra/derivcheck.svg?branch=master
+    :target: https://travis-ci.org/tovrstra/derivcheck
+
 Derivcheck provides a robust and very sensitive checker of analytic partial
 derivates. It is intended to be used in unit tests of other projects. See
 `basic_example.py` for a basic example.
@@ -50,8 +53,13 @@ with the following code:
 
     assert_deriv(f, g, origin)
 
-where ``origin`` is a scalar or array with ``shape_in``, depending on what ``f`` expects
-as input. The function assert_deriv takes several optional arguments to tune its behavior,
+where ``origin`` is a scalar or array with shape ``shape_in``, depending on what ``f``
+expects as input. An ``AssertionError`` is raised when the gradient function ``g`` is not
+consistent with numerical derivatives of ``f`` is incorrect. If Ridders' method does not
+converge to sufficiently accurate estimates of the derivatives and ``FloatingPointError``
+is raised.
+
+The function ``assert_deriv`` takes several optional arguments to tune its behavior,
 which are documented in the docstring.
 
 
