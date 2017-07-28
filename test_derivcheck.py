@@ -29,22 +29,22 @@ from derivcheck import *
 from basic_example import main as example_main
 
 
-def test_ridder_corner_cases():
+def test_ridders_corner_cases():
     with assert_raises(ValueError):
-        diff_ridder(np.sin, 0.0, 0.0)
+        diff_ridders(np.sin, 0.0, 0.0)
     with assert_raises(ValueError):
-        diff_ridder(np.sin, 0.0, 1.0, con=0.9)
+        diff_ridders(np.sin, 0.0, 1.0, con=0.9)
     with assert_raises(ValueError):
-        diff_ridder(np.sin, 0.0, 1.0, safe=0.9)
-    assert diff_ridder(np.sin, 0.0, 1.0, maxiter=0) == (None, None)
+        diff_ridders(np.sin, 0.0, 1.0, safe=0.9)
+    assert diff_ridders(np.sin, 0.0, 1.0, maxiter=0) == (None, None)
 
 
-def test_ridder_simple():
+def test_ridders_simple():
     for arg in np.linspace(-1.0, 1.0, 15):
-        deriv, error = diff_ridder(np.exp, arg, 0.1)
+        deriv, error = diff_ridders(np.exp, arg, 0.1)
         assert error < 1e-10
         np.testing.assert_allclose(deriv, np.exp(arg))
-        deriv, error = diff_ridder(np.sin, arg, 0.1)
+        deriv, error = diff_ridders(np.sin, arg, 0.1)
         assert error < 1e-10
         np.testing.assert_allclose(deriv, np.cos(arg))
 

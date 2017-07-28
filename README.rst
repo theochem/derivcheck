@@ -31,11 +31,12 @@ Use ``setup.py`` to run the tests:
 Summary
 =======
 
-This module implements a function ``assert_deriv`` that uses Ridder's finite difference
+This module implements a function ``assert_deriv`` that uses Ridders' finite difference
 scheme to test the implementation of analytic finite differences. The implementation of
-Ridder's method is based on the one from the book "Numerical Recipes"
-(http://numerical.recipes/), which is in turn a rendition of the method proposed by Ridder
-(Ridders, C.J.F. 1982, Advances in Engineering Software, vol. 4, no. 2, pp. 75–76.)
+Ridders' method is based on the one from the book "Numerical Recipes"
+(http://numerical.recipes/), which is in turn a slight rendition of the method proposed by
+Ridders. (Ridders, C.J.F. 1982, Advances in Engineering Software, vol. 4, no. 2, pp.
+75–76. https://doi.org/10.1016/S0141-1195(82)80057-0)
 
 It is assumed that you have implemented two functions ``f`` and its derivative or gradient
 ``g``. The function ``f`` takes one argument: a scalar or array with shape ``shape_in``.
@@ -59,7 +60,7 @@ Release history
 
 - **2017-07-28** 1.0.0
 
-  - Ridders finite difference scheme for testing analytic derivatives.
+  - Ridders' finite difference scheme for testing analytic derivatives.
   - Fully deterministic procedure.
   - More intuitive API
 

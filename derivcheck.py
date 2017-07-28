@@ -26,13 +26,13 @@ from builtins import range, object  # pylint: disable=redefined-builtin
 import numpy as np
 
 
-__all__ = ['diff_ridder', 'assert_deriv']
+__all__ = ['diff_ridders', 'assert_deriv']
 
 __version__ = '1.0.0'
 
 
-def diff_ridder(function, x, h, con=1.4, safe=2.0, maxiter=15):
-    """Estimate first-order derivative with Ridder's finite difference method.
+def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
+    """Estimate first-order derivative with Ridders' finite difference method.
 
     This implementation is based on the one from the book Numerical Recipes. The code
     is pythonized and no longer using fixed-size arrays. Also, the output of the function
@@ -210,7 +210,7 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
             # Make a function of only the selected input array element.
             wrapper = OneDimWrapper(function, origin, indices)
             # Compute the numerical derivative of this function and an error estimate.
-            deriv_approx, deriv_error = diff_ridder(wrapper, 0.0, h)
+            deriv_approx, deriv_error = diff_ridders(wrapper, 0.0, h)
             # Get the corresponding analytic derivative.
             deriv = gradient[..., iaxis]
             # Make sure the error on the derivative is smaller than the requested
