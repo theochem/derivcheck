@@ -26,7 +26,7 @@ from builtins import range, object  # pylint: disable=redefined-builtin
 import numpy as np
 
 
-__all__ = ('diff_ridders', 'assert_deriv')
+__all__ = ['diff_ridders', 'assert_deriv']
 
 __version__ = '1.0.0'
 

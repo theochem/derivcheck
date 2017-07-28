@@ -55,9 +55,8 @@ with the following code:
 
 where ``origin`` is a scalar or array with shape ``shape_in``, depending on what ``f``
 expects as input. An ``AssertionError`` is raised when the gradient function ``g`` is not
-consistent with numerical derivatives of ``f`` is incorrect. If Ridders' method does not
-converge to sufficiently accurate estimates of the derivatives and ``FloatingPointError``
-is raised.
+consistent with numerical derivatives of ``f``. If Ridders' method does not converge to
+sufficiently accurate estimates of a derivative, a ``FloatingPointError`` is raised.
 
 The function ``assert_deriv`` takes several optional arguments to tune its behavior,
 which are documented in the docstring.
