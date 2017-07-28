@@ -173,6 +173,11 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
     atol : float
         The allowed absolute error on the derivative.
 
+    Returns
+    -------
+    numtested : int
+        The number of derivatives tested.
+
     Raises
     ------
     AssertionError when the error on the derivative is too large.
@@ -192,6 +197,7 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
         gradient = gradient.reshape(-1, origin.size)
 
     # Flat loop ofer all elements of the input array
+    numtested = 0
     for iaxis in range(origin.size):
         # Get the corresponding input array indices.
         if origin.ndim == 0:
@@ -227,3 +233,5 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
             err_msg = 'derivative toward {} x=analytic y=numeric stepsize={:g}'.format(
                 indices, stepsize)
             np.testing.assert_allclose(deriv, deriv_approx, rtol, atol, err_msg=err_msg)
+            numtested += deriv.size
+    return numtested
