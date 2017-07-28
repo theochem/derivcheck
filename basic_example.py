@@ -21,8 +21,6 @@
 """Very basic usage example of Derivcheck."""
 
 
-from builtins import range  # pylint: disable=redefined-builtin
-
 import numpy as np
 
 from derivcheck import assert_deriv

@@ -25,7 +25,8 @@ from builtins import range  # pylint: disable=redefined-builtin
 from nose.tools import assert_raises
 import numpy as np
 
-from derivcheck import *
+# We want to test the wildcard import!
+from derivcheck import *  # pylint: disable=wildcard-import
 from basic_example import main as example_main
 
 
@@ -66,10 +67,9 @@ def test_assert_deriv_0d_harm():
 
 def _check_assert_deriv_0d_exp(nrep, arg_shape):
     _function = lambda arg: np.exp(arg).sum()
-    _gradient = lambda arg: np.exp(arg)
     for _ in range(nrep):
         origin = np.random.uniform(-1.0, 1.0, arg_shape)
-        assert_deriv(_function, _gradient, origin)
+        assert_deriv(_function, np.exp, origin)
 
 
 def test_assert_deriv_0d_exp():
@@ -108,7 +108,7 @@ def _check_assert_deriv_extra1(nrep, arg_shape, output_mask):
     def _gradient(arg):
         result = np.zeros(arg_shape[:-1] + arg_shape, float)
         for idx, val in np.lib.index_tricks.ndenumerate(arg):
-                result[idx[:-1] + idx] = arg[idx]
+            result[idx[:-1] + idx] = val
         return result
 
     for _ in range(nrep):
@@ -168,10 +168,9 @@ def test_assert_deriv_nd_weights():
 
 def test_assert_deriv_corner_cases():
     _function = lambda arg: np.exp(arg).sum()
-    _gradient = lambda arg: np.exp(arg)
     arg = np.ones((3, 3))
     with assert_raises(FloatingPointError):
-        assert_deriv(_function, _gradient, arg, 0.1, rtol=0, atol=0)
+        assert_deriv(_function, np.exp, arg, 0.1, rtol=0, atol=0)
 
 
 def test_example():

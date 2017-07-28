@@ -26,7 +26,7 @@ from builtins import range, object  # pylint: disable=redefined-builtin
 import numpy as np
 
 
-__all__ = ['diff_ridders', 'assert_deriv']
+__all__ = ('diff_ridders', 'assert_deriv')
 
 __version__ = '1.0.0'
 
@@ -75,7 +75,7 @@ def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
     con2 = con*con
     table = [[(
         np.asarray(function(x + h))
-        -np.asarray(function(x - h))
+        - np.asarray(function(x - h))
     )/(2.0*h)]]
     estimate = None
     error = None
@@ -85,11 +85,11 @@ def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
     # Successive columns in the table go to higher orders of extrapolation.
     for i in range(1, maxiter):
         # Reduce step size.
-        h /= con;
+        h /= con
         # First-order approximation at current step size.
         table.append([(
             np.asarray(function(x + h))
-            -np.asarray(function(x - h))
+            - np.asarray(function(x - h))
         )/(2.0*h)])
         # Compute higher-orders
         fac = con2
@@ -97,8 +97,8 @@ def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
             # Compute extrapolations of various orders, requiring no new
             # function evaluations. This is a recursion relation based on
             # Neville's method.
-            table[i].append((table[i][j-1]*fac - table[i-1][j-1])/(fac-1.0));
-            fac = con2*fac;
+            table[i].append((table[i][j-1]*fac - table[i-1][j-1])/(fac-1.0))
+            fac = con2*fac
 
             # The error strategy is to compare each new extrapolation to one
             # order lower, both at the present stepsize and the previous one:
@@ -216,7 +216,8 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
             # Make sure the error on the derivative is smaller than the requested
             # thresholds.
             if deriv_error >= atol and deriv_error >= rtol*abs(deriv).max():
-                raise FloatingPointError('Inaccurate estimate of the derivative for iaxis={}.'.format(indices))
+                raise FloatingPointError('Inaccurate estimate of the derivative for '
+                                         'iaxis={}.'.format(indices))
             # Flatten the array with numerical derivatives.
             if output_mask is None:
                 deriv_approx = deriv_approx.ravel()
