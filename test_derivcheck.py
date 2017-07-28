@@ -25,8 +25,7 @@ from builtins import range  # pylint: disable=redefined-builtin
 from nose.tools import assert_raises
 import numpy as np
 
-# We want to test the wildcard import!
-from derivcheck import *  # pylint: disable=wildcard-import
+from derivcheck import diff_ridders, assert_deriv
 from basic_example import main as example_main
 
 

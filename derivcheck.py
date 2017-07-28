@@ -31,7 +31,7 @@ __all__ = ['diff_ridders', 'assert_deriv']
 __version__ = '1.0.0'
 
 
-def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
+def diff_ridders(function, origin, stepsize, con=1.4, safe=2.0, maxiter=15):
     """Estimate first-order derivative with Ridders' finite difference method.
 
     This implementation is based on the one from the book Numerical Recipes. The code
@@ -42,9 +42,9 @@ def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
     ----------
     function : function
         The function to be differentiated.
-    x : float
+    origin : float
         The point at which must be differentiated.
-    h : float
+    stepsize : float
         The initial step size.
     con : float
         The rate at which the step size is decreased (contracted). Must be larger than
@@ -65,8 +65,8 @@ def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
         The (optimistic) estimate of the error on the derivative.
 
     """
-    if h == 0.0:
-        raise ValueError('h must be nonzero.')
+    if stepsize == 0.0:
+        raise ValueError('stepsize must be nonzero.')
     if con <= 1.0:
         raise ValueError('con must be larger than one.')
     if safe <= 1.0:
@@ -74,9 +74,9 @@ def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
 
     con2 = con*con
     table = [[(
-        np.asarray(function(x + h))
-        - np.asarray(function(x - h))
-    )/(2.0*h)]]
+        np.asarray(function(origin + stepsize))
+        - np.asarray(function(origin - stepsize))
+    )/(2.0*stepsize)]]
     estimate = None
     error = None
 
@@ -85,12 +85,12 @@ def diff_ridders(function, x, h, con=1.4, safe=2.0, maxiter=15):
     # Successive columns in the table go to higher orders of extrapolation.
     for i in range(1, maxiter):
         # Reduce step size.
-        h /= con
+        stepsize /= con
         # First-order approximation at current step size.
         table.append([(
-            np.asarray(function(x + h))
-            - np.asarray(function(x - h))
-        )/(2.0*h)])
+            np.asarray(function(origin + stepsize))
+            - np.asarray(function(origin - stepsize))
+        )/(2.0*stepsize)])
         # Compute higher-orders
         fac = con2
         for j in range(1, i+1):
@@ -138,10 +138,10 @@ class OneDimWrapper(object):
         self.origin = origin
         self.indices = indices
 
-    def __call__(self, x):
+    def __call__(self, arg1):
         """Compute the one-dimensional function."""
         arg = self.origin.copy()
-        arg[self.indices] += x
+        arg[self.indices] += arg1
         return self.function(arg)
 
 
@@ -201,16 +201,16 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
 
         # Determine the step size
         if isinstance(widths, float):
-            h = widths
+            stepsize = widths
         else:
-            h = widths[indices]
+            stepsize = widths[indices]
 
         # If needed, test this component
-        if h > 0:
+        if stepsize > 0:
             # Make a function of only the selected input array element.
             wrapper = OneDimWrapper(function, origin, indices)
             # Compute the numerical derivative of this function and an error estimate.
-            deriv_approx, deriv_error = diff_ridders(wrapper, 0.0, h)
+            deriv_approx, deriv_error = diff_ridders(wrapper, 0.0, stepsize)
             # Get the corresponding analytic derivative.
             deriv = gradient[..., iaxis]
             # Make sure the error on the derivative is smaller than the requested
@@ -224,5 +224,6 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
             else:
                 deriv_approx = deriv_approx[output_mask]
             # Compare
-            err_msg = 'derivative toward {} x=analytic y=numeric stepsize={:g}'.format(indices, h)
+            err_msg = 'derivative toward {} x=analytic y=numeric stepsize={:g}'.format(
+                indices, stepsize)
             np.testing.assert_allclose(deriv, deriv_approx, rtol, atol, err_msg=err_msg)
