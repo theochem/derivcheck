@@ -1,3 +1,5 @@
 *.pyc
 .coverage
 derivcheck.egg-info
+build
+dist
