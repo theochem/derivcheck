@@ -25,27 +25,25 @@ from builtins import range  # pylint: disable=redefined-builtin
 from nose.tools import assert_raises
 import numpy as np
 
-from derivcheck import derivcheck, _random_unit
+from derivcheck import *
 from basic_example import main as example_main
 
 
-def _check_derivcheck_0d(narg, x_shape):
+def _check_assert_deriv_0d(nrep, x_shape):
     _function = lambda arg: 0.5 * np.sum(arg**2)
     _gradient = lambda arg: arg
-    args = [np.random.normal(0, 1, x_shape) for _ in range(narg)]
-    derivcheck(_function, _gradient, args, verbose=True)
+    for _ in range(nrep):
+        origin = np.random.normal(0, 1, x_shape)
+        assert_deriv(_function, _gradient, origin)
 
 
-def test_derivcheck_0d():
-    yield _check_derivcheck_0d, 1, None
-    yield _check_derivcheck_0d, 1, (10, )
-    yield _check_derivcheck_0d, 1, (3, 4)
-    yield _check_derivcheck_0d, 10, None
-    yield _check_derivcheck_0d, 10, (10, )
-    yield _check_derivcheck_0d, 10, (3, 4)
+def test_assert_deriv_0d():
+    yield _check_assert_deriv_0d, 10, None
+    yield _check_assert_deriv_0d, 10, (10, )
+    yield _check_assert_deriv_0d, 10, (3, 4)
 
 
-def _check_derivcheck_nd(narg, x_shape):
+def _check_assert_deriv_nd(nrep, x_shape):
     _function = lambda arg: 0.5 * arg**2
 
     def _gradient(arg):
@@ -54,18 +52,19 @@ def _check_derivcheck_nd(narg, x_shape):
             result[idx + idx] = val
         return result
 
-    args = [np.random.normal(0, 1, x_shape) for _ in range(narg)]
-    derivcheck(_function, _gradient, args, verbose=True)
+    for _ in range(nrep):
+        arg = np.random.normal(0, 1, x_shape)
+        assert_deriv(_function, _gradient, arg)
 
 
-def test_derivcheck_nd():
-    yield _check_derivcheck_nd, 1, (10, )
-    yield _check_derivcheck_nd, 1, (3, 4)
-    yield _check_derivcheck_nd, 10, (10, )
-    yield _check_derivcheck_nd, 10, (3, 4)
+def test_assert_deriv_nd():
+    yield _check_assert_deriv_nd, 1, (10, )
+    yield _check_assert_deriv_nd, 1, (3, 4)
+    yield _check_assert_deriv_nd, 10, (10, )
+    yield _check_assert_deriv_nd, 10, (3, 4)
 
 
-def _check_derivcheck_extra1(narg):
+def _check_assert_deriv_extra1(nrep):
     _function = lambda arg: 0.5 * (arg**2).sum(axis=1)
 
     def _gradient(arg):
@@ -75,30 +74,33 @@ def _check_derivcheck_extra1(narg):
                 result[index0, index0, index1] = arg[index0, index1]
         return result
 
-    args = [np.random.normal(0, 1, (4, 3)) for _ in range(narg)]
-    derivcheck(_function, _gradient, args, verbose=True)
+    for _ in range(nrep):
+        arg = np.random.normal(0, 1, (4, 3))
+        assert_deriv(_function, _gradient, arg)
 
 
-def test_derivcheck_extra1():
-    yield _check_derivcheck_extra1, 1
-    yield _check_derivcheck_extra1, 10
+def test_assert_deriv_extra1():
+    yield _check_assert_deriv_extra1, 1
+    yield _check_assert_deriv_extra1, 10
 
 
-def _check_derivcheck_nd_zeros(narg, x_shape):
+def _check_assert_deriv_nd_zeros(nrep, x_shape):
     function = lambda arg: np.ones(x_shape)
     gradient = lambda arg: np.zeros(x_shape + x_shape)
-    args = [np.random.normal(0, 1, x_shape) for _ in range(narg)]
-    derivcheck(function, gradient, args, verbose=True)
+
+    for _ in range(nrep):
+        args = np.random.normal(0, 1, x_shape)
+        assert_deriv(function, gradient, args)
 
 
-def test_derivcheck_nd_zeros():
-    yield _check_derivcheck_nd_zeros, 1, (10, )
-    yield _check_derivcheck_nd_zeros, 1, (3, 4)
-    yield _check_derivcheck_nd_zeros, 10, (10, )
-    yield _check_derivcheck_nd_zeros, 10, (3, 4)
+def test_assert_deriv_nd_zeros():
+    yield _check_assert_deriv_nd_zeros, 1, (10, )
+    yield _check_assert_deriv_nd_zeros, 1, (3, 4)
+    yield _check_assert_deriv_nd_zeros, 10, (10, )
+    yield _check_assert_deriv_nd_zeros, 10, (3, 4)
 
 
-def test_derivcheck_nd_weights():
+def test_assert_deriv_nd_weights():
 
     # function is indeterminate for arg[0] <= 1
     def _function(arg):
@@ -111,26 +113,14 @@ def test_derivcheck_nd_weights():
             return np.array([-arg[1] / (arg[0] - 1)**2, 1 / max(0, arg[0] - 1), 1.0])
 
     # do searches near the indeterminate region
-    args = np.array([1.03, 4.0, 1.0])
+    arg = np.array([1.03, 4.0, 1.0])
     # romin searches into arg[0] < 1
     with assert_raises(FloatingPointError):
-        derivcheck(_function, _gradient, args, 0.1, 16)
-    # reduce weight on arg[0] so that romin does not search so far
-    weights = np.array([1.e-4, 1.0, 1.0])
-    derivcheck(_function, _gradient, args, 0.1, 16, weights=weights, verbose=True)
+        assert_deriv(_function, _gradient, arg, 0.1)
+    # reduce widths on arg[0] so that romin does not search so far
+    widths = np.array([1.e-4, 1.0, 1.0])
+    assert_deriv(_function, _gradient, arg, widths)
 
 
 def test_example():
     example_main()
-
-
-def test_derivcheck_exceptions():
-    with assert_raises(ValueError):
-        derivcheck(None, None, [0.0], 0.1, 7)
-    with assert_raises(NotImplementedError):
-        derivcheck(None, None, [None], 0.1, 7)
-
-
-def test_random_unit():
-    weights = np.array([[3, -1], [0.0, 2]])
-    np.testing.assert_almost_equal(np.linalg.norm(_random_unit(weights.shape, weights)), 1)

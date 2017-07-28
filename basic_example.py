@@ -25,7 +25,7 @@ from builtins import range  # pylint: disable=redefined-builtin
 
 import numpy as np
 
-from derivcheck import derivcheck
+from derivcheck import assert_deriv
 
 
 def function(arg):
@@ -40,12 +40,11 @@ def gradient(arg):
 
 def main():
     """Run the example."""
-    # Some reference points at which the derivative must be tested.
-    args = [np.random.normal(0, 1, (4, 3)) for _ in range(10)]
+    # Some reference pointsat which the derivative must be tested.
+    origin = np.random.normal(0, 1, (4, 3))
 
-    # Test the derivatives at the reference points. See docstring of derivcheck for optional
-    # arguments.
-    derivcheck(function, gradient, args)
+    # Test the derivatives at the reference points. See docstring for optional arguments.
+    assert_deriv(function, gradient, origin)
 
 
 if __name__ == '__main__':  # pragma: no cover
