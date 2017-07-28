@@ -21,16 +21,6 @@ Alternatively, you can install derivcheck in your home directory:
     pip install derivcheck --user
 
 
-Testing
-=======
-
-Use ``setup.py`` to run the tests:
-
-.. code:: bash
-
-    ./setup.py nosetests
-
-
 Summary
 =======
 
@@ -81,3 +71,14 @@ Release history
   Initial version: code taken from the Romin project (with contributions and
   ideas from Michael Richer and Paul W. Ayers). Some bugs were fixed through QA
   and CI (pylint, pycodestyle, pydocstyle, nosetests and coverage).
+
+
+Testing
+=======
+
+First you need to get the source package and unzip it, or you can clone the repository. In
+the source tree, you simply run:
+
+.. code:: bash
+
+    ./setup.py nosetests
