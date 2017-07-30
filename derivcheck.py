@@ -28,7 +28,7 @@ import numpy as np
 
 __all__ = ['diff_ridders', 'assert_deriv']
 
-__version__ = '1.0.1'
+__version__ = '1.0.2'
 
 
 def diff_ridders(function, origin, stepsize, con=1.4, safe=2.0, maxiter=15):
@@ -164,11 +164,12 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
         The initial (maximal) step size for the finite difference method. Do not take a
         value that is too small. When an array is given, each matrix element of the input
         of the function gets a different step size. When a matrix element is set to zero,
-        the derivative towards that element is not test. The function will not be sampled
-        beyond [origin-widths, origin+widths].
+        the derivative towards that element is not tested. The function will not be
+        sampled beyond [origin-widths, origin+widths].
     output_mask : np.ndarray or None
         This option is useful when the function returns an array output: it allows the
-        caller to select which components of the output need to be tested.
+        caller to select which components of the output need to be tested. When not given,
+        all components are tested.
     rtol : float
         The allowed relative error on the derivative.
     atol : float
