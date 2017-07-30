@@ -1,5 +1,7 @@
 .. image:: https://travis-ci.org/tovrstra/derivcheck.svg?branch=master
     :target: https://travis-ci.org/tovrstra/derivcheck
+.. image:: https://anaconda.org/tovrstra/derivcheck/badges/version.svg
+    :target: https://anaconda.org/tovrstra/derivcheck
 
 Derivcheck provides a robust and very sensitive checker of analytic partial
 derivates. It is intended to be used in unit tests of other projects. See
@@ -20,6 +22,12 @@ Alternatively, you can install derivcheck in your home directory:
 .. code:: bash
 
     pip install derivcheck --user
+
+Lastly, you can also install derivcheck with conda:
+
+.. code:: bash
+
+    conda install -c tovrstra derivcheck
 
 
 Background and usage
@@ -112,3 +120,27 @@ the source tree, you simply run:
 .. code:: bash
 
     ./setup.py nosetests
+
+
+How to make a release (Github, PyPI and anaconda.org)
+=====================================================
+
+Before you do this, make sure everything is OK. The PyPI steps cannot be undone. If you
+delete a file from PyPI (because of a mistake), you cannot upload the fixed file with the
+same filename! See https://github.com/pypa/packaging-problems/issues/74
+
+The following steps are tested on an Linux system, with Miniconda and twine installed. In
+your conda environment, you also need to install ``conda-build`` and ``anaconda-client``.
+
+1. Update the ``__version__`` variable in ``derivhceck.py`` if not done yet.
+2. Make a source archive: ``./setup.py sdist``
+3. Make a git version tag: ``git tag $(python -c 'import derivcheck; print derivcheck.__version__')``
+4. Push the tag: ``git push origin master --tags``
+5. Upload the source tar file to github.com, using your browser. See
+   https://help.github.com/articles/creating-releases/
+6. Upload the source tar file to PyPI: ``twine upload dist/derivhceck.*.tar.gz``
+7. Get the sha156 checksum of the source file: ``sha256sum dist/derivhceck.*.tar.gz``
+8. Update the version and sha256 fields in ``conda/meta.yml``.
+9. Build the conda package: ``conda build conda/`` Take not of the location of the package
+   for the following step.
+10. Upload the conda package: ``anaconda upload <<package path>>``

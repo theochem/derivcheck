@@ -1,0 +1,55 @@
+{% set name = "derivcheck" %}
+{% set version = "1.0.1" %}
+{% set hash_type = "sha256" %}
+{% set hash_value = "e6240136ed63b7be7d0d5d5c895b719a63e43849001ff4d121c4f5f47970fa6a" %}
+
+package:
+  version: '{{ version }}'
+  name: '{{ name|lower }}'
+
+source:
+  url: https://github.com/tovrstra/{{ name }}/releases/download/{{ version }}/{{ name }}-{{ version }}.tar.gz
+  '{{ hash_type }}': '{{ hash_value }}'
+  fn: '{{ name }}-{{ version }}.tar.gz'
+
+build:
+  number: 0
+  script: python setup.py install  --single-version-externally-managed --record=record.txt
+
+requirements:
+  run:
+    - python
+    - numpy
+    - future
+  build:
+    - python
+    - setuptools
+    - numpy
+    - future
+    - nose
+    - coverage
+
+test:
+  imports:
+    - derivcheck
+  requires:
+    - nose
+    - coverage
+  source_files:
+    - test_derivcheck.py
+    - basic_example.py
+  commands:
+    - nosetests test_derivcheck.py
+
+about:
+  dev_url: https://github.com/tovrstra/derivcheck
+  description: A robust and very sensitive tester for analytic partial derivatives
+  license: GNU General Public License v3 or later (GPLv3+)
+  license_family: GPL3
+  summary: A robust and very sensitive tester for analytic partial derivatives
+  home: https://github.com/tovrstra/derivcheck
+  license_file: LICENSE.txt
+  doc_url: https://github.com/tovrstra/derivcheck
+
+extra:
+  recipe-maintainers: Toon Verstraelen <toon.verstraelen@gmail.com>
