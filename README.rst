@@ -56,26 +56,26 @@ to sufficiently accurate estimates of a derivative, a ``FloatingPointError`` is 
 The function ``assert_deriv`` takes several optional arguments to tune its behavior:
 
 
-``widths`` : ``float`` or ``np.ndarray`` (default ``1e-4``)
+* ``widths`` : ``float`` or ``np.ndarray`` (default ``1e-4``)
 
-    The initial (maximal) step size for the finite difference method. Do not take a value
-    that is too small. When an array is given, each matrix element of the input of the
-    function gets a different step size. When a matrix element is set to zero, the
-    derivative towards that element is not test. The function will not be sampled beyond
-    [origin-widths, origin+widths].
+  The initial (maximal) step size for the finite difference method. Do not take a value
+  that is too small. When an array is given, each matrix element of the input of the
+  function gets a different step size. When a matrix element is set to zero, the
+  derivative towards that element is not test. The function will not be sampled beyond
+  [origin-widths, origin+widths].
 
-``output_mask`` : ``np.ndarray`` or ``None`` (default)
+* ``output_mask`` : ``np.ndarray`` or ``None`` (default)
 
-    This option is useful when the function returns an array outout: it allows the caller
-    to select which components of the output need to be tested.
+  This option is useful when the function returns an array outout: it allows the caller to
+  select which components of the output need to be tested.
 
-``rtol`` : ``float``
+* ``rtol`` : ``float``
 
-    The allowed relative error on the derivative.
+  The allowed relative error on the derivative.
 
-``atol`` : ``float``
+* ``atol`` : ``float``
 
-    The allowed absolute error on the derivative.
+  The allowed absolute error on the derivative.
 
 
 Release history
