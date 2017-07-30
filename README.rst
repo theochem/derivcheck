@@ -154,3 +154,32 @@ your conda environment, you also need to install ``conda-build`` and ``anaconda-
 12. Build the conda package: ``conda build conda/`` Take note of the location of the
     package for the following step.
 13. Upload the conda package: ``anaconda login; anaconda upload <package path>``
+14. Commit the updated conda file and push to github.
+
+This is not ideal yet because the changes in the conda file are committed after the
+release. Idealy the conda file gets hosted on https://conda-forge.org/.
+
+In future, this should become fully automated: as soon as a tag is pushed with a version
+number, the entire process should be carried out automatically. A few special things are
+needed to make this work:
+
+- Include all of the above steps in the Travis script. A release should only be made if
+  all tests pass.
+    - General Travis deployment docs: https://docs.travis-ci.com/user/deployment/
+    - Documentation for Github releases: https://docs.travis-ci.com/user/deployment/releases/
+    - Documentation for Pypi releases: https://docs.travis-ci.com/user/deployment/pypi/
+    - Example for anaconda: https://gist.github.com/yoavram/05a3c04ddcf317a517d5
+- Some more jinja tricks are needed in the meta.yml files, which we have to render
+  before passing to `conda build`, to fill in version and sha256 sum.
+- Anaconda, Pypi and Github credentials should somehow be known to Travis. To do this
+  safely, encryption is needed, which is explained here:
+  https://docs.travis-ci.com/user/encryption-keys/
+- Anaconda tokens are ideal for accessing the repo with limited features:
+  https://docs.continuum.io/anaconda-cloud/user-guide/tasks/work-with-accounts#creating-access-tokens
+- A distinction should be made between alpha, beta and stable releases:
+    - PyPI does not allow separate "channels" for alpha and beta releases. Only stable
+      releases should be uploaded. If not, people will just upgrade into development
+      versions without realizing it.
+    - Anaconda labels can be used to mark alpha and beta releases, default is stable
+      (main).
+    - Github can make a distinction between stable and pre- releases.
