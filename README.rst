@@ -165,10 +165,12 @@ needed to make this work:
 
 - Include all of the above steps in the Travis script. A release should only be made if
   all tests pass.
+
     - General Travis deployment docs: https://docs.travis-ci.com/user/deployment/
     - Documentation for Github releases: https://docs.travis-ci.com/user/deployment/releases/
     - Documentation for Pypi releases: https://docs.travis-ci.com/user/deployment/pypi/
     - Example for anaconda: https://gist.github.com/yoavram/05a3c04ddcf317a517d5
+
 - Some more jinja tricks are needed in the meta.yml files, which we have to render
   before passing to `conda build`, to fill in version and sha256 sum.
 - Anaconda, Pypi and Github credentials should somehow be known to Travis. To do this
@@ -177,6 +179,7 @@ needed to make this work:
 - Anaconda tokens are ideal for accessing the repo with limited features:
   https://docs.continuum.io/anaconda-cloud/user-guide/tasks/work-with-accounts#creating-access-tokens
 - A distinction should be made between alpha, beta and stable releases:
+
     - PyPI does not allow separate "channels" for alpha and beta releases. Only stable
       releases should be uploaded. If not, people will just upgrade into development
       versions without realizing it.
