@@ -167,7 +167,7 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
         the derivative towards that element is not test. The function will not be sampled
         beyond [origin-widths, origin+widths].
     output_mask : np.ndarray or None
-        This option is useful when the function returns an array outout: it allows the
+        This option is useful when the function returns an array output: it allows the
         caller to select which components of the output need to be tested.
     rtol : float
         The allowed relative error on the derivative.

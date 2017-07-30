@@ -66,7 +66,7 @@ The function ``assert_deriv`` takes several optional arguments to tune its behav
 
 * ``output_mask`` : ``np.ndarray`` or ``None`` (default)
 
-  This option is useful when the function returns an array outout: it allows the caller to
+  This option is useful when the function returns an array output: it allows the caller to
   select which components of the output need to be tested.
 
 * ``rtol`` : ``float``
