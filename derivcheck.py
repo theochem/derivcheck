@@ -161,13 +161,14 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
     origin : np.ndarray
         The point at which the derivatives are computed.
     widths : float or np.ndarray
-        The initial (maximal) step size for the finite difference method. Do not take
-        a value that is too small. When an array, each matrix element of the input of the
-        function gets a different step size. Set to zero to skip an element. The function
-        will not be sampled beyond [origin-widths, origin+widths].
+        The initial (maximal) step size for the finite difference method. Do not take a
+        value that is too small. When an array is given, each matrix element of the input
+        of the function gets a different step size. When a matrix element is set to zero,
+        the derivative towards that element is not test. The function will not be sampled
+        beyond [origin-widths, origin+widths].
     output_mask : np.ndarray or None
-        When given, selects the outputs of function to be tested. Only relevant for
-        functions that return arrays.
+        This option is useful when the function returns an array outout: it allows the
+        caller to select which components of the output need to be tested.
     rtol : float
         The allowed relative error on the derivative.
     atol : float
