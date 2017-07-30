@@ -140,8 +140,9 @@ your conda environment, you also need to install ``conda-build`` and ``anaconda-
 1. Update the ``__version__`` variable in ``derivhceck.py`` if not done yet. Make use of
    semantic versioning: http://semver.org/
 2. Update the release history.
-3. Commit the final changes to master
-4. Push to github and wait for the tests to pass.
+3. Commit the final changes to master and push to github.
+4. Wait for the tests to pass. Check if the website looks ok, etc. If not, fix things and
+   repeat step 3.
 5. Make a git version tag: ``git tag $(python -c 'import derivcheck; print derivcheck.__version__')``
 6. Push to github with tags: ``git push origin master --tags``
 7. Make a source archive: ``./setup.py sdist``
@@ -151,5 +152,5 @@ your conda environment, you also need to install ``conda-build`` and ``anaconda-
 10. Get the sha256 checksum of the source file: ``sha256sum dist/derivcheck*.tar.gz``
 11. Update the ``version`` and ``sha256`` fields in ``conda/meta.yml``.
 12. Build the conda package: ``conda build conda/`` Take note of the location of the
-   package for the following step.
+    package for the following step.
 13. Upload the conda package: ``anaconda login; anaconda upload <package path>``
