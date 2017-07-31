@@ -155,7 +155,7 @@ your conda environment, you also need to install ``conda-build`` and ``anaconda-
 3. Commit the final changes to master and push to github.
 4. Wait for the tests to pass. Check if the website looks ok, etc. If not, fix things and
    repeat step 3.
-5. Make a git version tag: ``git tag $(python -c 'import derivcheck; print derivcheck.__version__')``
+5. Make a git version tag: ``git tag $(python -c 'import derivcheck; print(derivcheck.__version__)')``
 6. Push to github with tags: ``git push origin master --tags``
 7. Make a source archive: ``./setup.py sdist``
 8. Upload the source tar file to github.com, using your browser. See

@@ -48,8 +48,8 @@ script:
 - pydocstyle setup.py derivcheck
 - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
 - if [[ ! -z ${TRAVIS_TAG} && ! -f dist/derivcheck-${TRAVIS_TAG}.tar.gz ]]; then
-  echo "source release dist/derivcheck-${TRAVIS_TAG}.tar.gz not found"
-  exit 1
+  echo "source release dist/derivcheck-${TRAVIS_TAG}.tar.gz not found";
+  exit 1;
   fi
 deploy:
 - provider: releases
