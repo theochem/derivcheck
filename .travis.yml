@@ -29,10 +29,10 @@ install:
   - conda build -q conda.recipe
 
   # Install dependencies in conda test environment
-  - conda create -q -n test-environment python=$MYCONDAPY pycodestyle nose coverage pylint future numpy anaconda-client
+  - conda create -q -n test-environment python=$MYCONDAPY nose coverage future numpy anaconda-client
   - source activate test-environment
   # Pip can get confused by our setup.cfg
-  - (cd; pip install pydocstyle)
+  - (cd; pip install pydocstyle pycodestyle pylint)
 
   # Packaging
   - python setup.py sdist
