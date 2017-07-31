@@ -12,6 +12,7 @@ echo "Converting conda package..."
 conda convert --platform all $HOME/miniconda/conda-bld/linux-64/derivcheck-*.tar.bz2 --output-dir conda-bld/
 
 echo "Deploying to Anaconda.org..."
+anaconda -t $ANACONDA_TOKEN upload -l ${LABEL} $HOME/miniconda/conda-bld/linux-64/derivcheck-*.tar.bz2
 anaconda -t $ANACONDA_TOKEN upload -l ${LABEL} conda-bld/**/derivcheck-*.tar.bz2
 
 echo "Successfully deployed to Anaconda.org."
