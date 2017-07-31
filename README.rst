@@ -30,6 +30,25 @@ Lastly, you can also install derivcheck with conda:
     conda install -c tovrstra derivcheck
 
 
+Testing
+=======
+
+First you need to install nosetest and coverage with either pip or conda. One the
+following lines is suitable, depending on how you installed derivcheck (see above):
+
+.. code:: bash
+
+    pip install nose coverage
+    pip install nose coverage --user
+    conda install nose coverage
+
+Then you can run the tests:
+
+.. code:: bash
+
+    nosetests derivcheck
+
+
 Background and usage
 ====================
 
@@ -90,6 +109,10 @@ The function ``assert_deriv`` takes several optional arguments to tune its behav
 Release history
 ===============
 
+- 1.1.0
+
+  Tests are now included with the installed module.
+
 - **2017-07-30** 1.0.2
 
   Updated README and install recipe for Conda
@@ -114,17 +137,6 @@ Release history
   Initial version: code taken from the Romin project (with contributions and
   ideas from Michael Richer and Paul W. Ayers). Some bugs were fixed through QA
   and CI (pylint, pycodestyle, pydocstyle, nosetests and coverage).
-
-
-Testing
-=======
-
-First you need to get the source package and unzip it, or you can clone the repository. In
-the source tree, you simply run:
-
-.. code:: bash
-
-    ./setup.py nosetests
 
 
 How to make a release (Github, PyPI and anaconda.org)
