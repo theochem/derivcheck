@@ -1,9 +1,9 @@
 sudo: false
-matrix:
-  # Do not use Travis Python to save some time.
-  env:
-    - MYCONDAPY='2.7'
-    - MYCONDAPY='3.6'
+# Do not use Travis Python to save some time.
+language: generic
+env:
+  - MYCONDAPY=2.7
+  - MYCONDAPY=3.6
 install:
   # We do this conditionally because it saves us some downloading if the
   # version is the same.
