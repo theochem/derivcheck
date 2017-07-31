@@ -89,3 +89,12 @@ deploy:
     repo: tovrstra/derivcheck
     tags: true
     condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7"
+- provider: pypi
+  skip_cleanup: true
+  user: tovrstra
+  password:
+    secure: "frjVNIsilKp1rJifQSKZjSv6UylJFDOUHUvxmv6WqXEZu8H0waW7dZv6ihcKEanXugvCdzt4Ox1ir7pptDG85S+/OjiT9dx4A1LR3aF45EnccHO6qspLeDRDzJutDWiK5Iej6GIBHx4MZsaPq+FzQhCEmQ5B7MHoiCUzqGbc3sIU1YbiiFRbRk0q8EIkyU2KATR4u7AEo62EYyXPWTZqS3eiDGqBAnMRBpQFmjQ/g6mS8viISabaCJ1GoRMrGmqe9FUWJS2fX+xEtrX1yb/PN2W8gUPd2lAaBGf2fiY/H0+isyyMFxRHSFGOjbHMzveoV0qEGwizceWk7apgmk3KKbT3FF56K7GhW8cmSsGXGnVe4Zwe18CEfzSEUw2h7H9OoQ6jHuirHK2AvksZ75B2B1G625/S/OZWwImwJYaRiGbTnrb52GyD58cj8PdoGyD5Ot1L9YPB6uA7fpLbY+XDwSuCr2FiU1aDIUWwhXYuqi/uozOZIrCZ5MBFpf3jcl4dS1O1eZgkjPgiVp3ZAaWI9I0ii7ADg0uUq0IUuP6zciFnecPKElmjc1h53Uii7F1EJWhS3tk55mPqs1V28j3Te/MW5+eJDvXmOpDw1ib2rs9MXQkFV039DMdvKDN0dmbokO0hHJCz2e3O1Edl8An8mK4qxAnTS9n8hxSh33fU0Ao="
+  on:
+    repo: tovrstra/derivcheck
+    tags: true
+    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7"
