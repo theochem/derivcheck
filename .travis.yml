@@ -15,11 +15,11 @@ script:
 - pylint derivcheck.py test_derivcheck.py basic_example.py
 - python setup.py sdist
 deploy:
+  # two different release mechanisms, one for stable and one for pre releases.
   - provider: releases
     api_key:
       secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
-    file_glob: true
-    file: dist/derivcheck-*.*.*.tar.gz
+    file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
     on:
       repo: tovrstra/derivcheck
       tags: true
@@ -30,8 +30,7 @@ deploy:
   - provider: releases
     api_key:
       secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
-    file_glob: true
-    file: dist/derivcheck-*.*.*.tar.gz
+    file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
     on:
       repo: tovrstra/derivcheck
       tags: true
