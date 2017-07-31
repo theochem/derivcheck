@@ -43,10 +43,10 @@ script:
   # Test outside source tree, to make sure we test the installed version.
   - (cd; nosetests derivcheck)
   # Code quality tests...
-  - pycodestyle derivcheck.py basic_example.py setup.py
-  - pycodestyle --ignore=E731 test_derivcheck.py
-  - pydocstyle setup.py derivcheck.py test_derivcheck.py basic_example.py
-  - pylint derivcheck.py test_derivcheck.py basic_example.py
+  - pycodestyle derivcheck/__init__.py derivcheck/basic_example.py setup.py
+  - pycodestyle --ignore=E731 derivcheck/test_derivcheck.py
+  - pydocstyle setup.py derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
+  - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
 deploy:
   # two different release mechanisms, one for stable and one for pre releases.
   - provider: releases
