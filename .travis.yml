@@ -19,6 +19,7 @@ install:
 # Configure conda and get a few essentials
 - conda config --set always_yes yes --set changeps1 no
 - conda update -q conda
+# Conda build must be installed in root env.
 - conda install conda-build
 - conda info -a
 
@@ -32,6 +33,8 @@ install:
 - conda create -q -n test-environment python=$MYCONDAPY nose coverage future numpy
   anaconda-client
 - source activate test-environment
+# Pip has more recent versions of the lint tools.
+# Install pip stuff after changing CWD away from source tree: our setup.cfg confuses pip.
 - "(cd; pip install pydocstyle pycodestyle pylint)"
 
 # Build source package, should work too and needed for deployment.
@@ -51,6 +54,8 @@ script:
   echo "source release dist/derivcheck-${TRAVIS_TAG}.tar.gz not found";
   exit 1;
   fi
+# HACK! Remove setup.cfg because it confuses pip, which is used for deployment to PyPI.
+- rm setup.cfg
 deploy:
 - provider: releases
   skip_cleanup: true
