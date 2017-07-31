@@ -6,3 +6,4 @@ rm -rvf derivcheck.egg-info
 rm -rvf build
 rm -rvf dist
 rm -vf record.txt
+rm -rvf __pycache__
