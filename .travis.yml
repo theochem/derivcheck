@@ -22,7 +22,7 @@ install:
   - conda info -a
 
   # Build package
-  - DERIVCHECK_VERSION=$(pythin -c "import setup; print setup.get_version()")
+  - DERIVCHECK_VERSION=$(python -c "import setup; print setup.get_version()")
   - echo "{% set version = "${DERIVCHECK_VERSION}"  %}" > conda/meta.yaml
   - cat conda/meta.yaml.template >> conda/meta.yaml
   - conda build conda
