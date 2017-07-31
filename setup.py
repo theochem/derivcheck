@@ -37,6 +37,7 @@ def get_version():
             if line.startswith('__version__'):
                 return line.split('\'')[1]
 
+
 if __name__ == '__main__':
     from setuptools import setup
     setup(

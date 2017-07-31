@@ -22,7 +22,7 @@ install:
   - conda info -a
 
   # Build package
-  - DERIVCHECK_VERSION=$(python -c "import setup; print setup.get_version()")
+  - DERIVCHECK_VERSION=$(python -c "import setup; print(setup.get_version())")
   - echo "{% set version = \"${DERIVCHECK_VERSION}\" %}" > conda.recipe/meta.yaml
   - cat conda.recipe/meta.yaml.template >> conda.recipe/meta.yaml
   - cat conda.recipe/meta.yaml
@@ -45,7 +45,7 @@ script:
   # Code quality tests...
   - pycodestyle derivcheck/__init__.py derivcheck/basic_example.py setup.py
   - pycodestyle --ignore=E731 derivcheck/test_derivcheck.py
-  - pydocstyle setup.py derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
+  - pydocstyle setup.py derivcheck
   - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
 deploy:
   # two different release mechanisms, one for stable and one for pre releases.
