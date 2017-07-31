@@ -49,7 +49,6 @@ if __name__ == '__main__':
         packages=['derivcheck'],
         install_requires=['numpy', 'future'],
         python_requires='>=2.7',
-        setup_requires=['nose>=1.0', 'coverage'],
         classifiers=[
             'Environment :: Console',
             'Intended Audience :: Science/Research',
