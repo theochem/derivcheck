@@ -40,7 +40,7 @@ deploy:
     on:
       repo: tovrstra/derivcheck
       tags: true
-      condition: '$TRAVIS_TAG != *[ab]*' && $MYCONDAPY == 2.7
+      condition: '$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7'
     prerelease: false
     skip_cleanup: true
   - provider: releases
@@ -50,6 +50,6 @@ deploy:
     on:
       repo: tovrstra/derivcheck
       tags: true
-      condition: '$TRAVIS_TAG == *[ab]*' && $MYCONDAPY == 2.7
+      condition: '$TRAVIS_TAG == *[ab]* && $MYCONDAPY == 2.7'
     prerelease: true
     skip_cleanup: true
