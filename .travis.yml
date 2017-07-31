@@ -22,7 +22,7 @@ install:
   - conda info -a
 
   # Install dependencies in conda test environment
-  - conda create -q -n test-environment python=$MYCONDAPY pycodestyle pydocstyle nose coverage pylint future
+  - conda create -q -n test-environment python=$MYCONDAPY pycodestyle pydocstyle nose coverage pylint future numpy
   - source activate test-environment
 script:
   - python setup.py nosetests
