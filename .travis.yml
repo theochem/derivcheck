@@ -17,20 +17,23 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
+  - conda install conda-build
   # Useful for debugging any issues with conda
   - conda info -a
 
+  # Build package
+  - DERIVCHECK_VERSION=$(pythin -c "import setup; print setup.get_version()")
+  - echo "{% set version = "${DERIVCHECK_VERSION}"  %}" > conda/meta.yaml
+  - cat conda/meta.yaml.template >> conda/meta.yaml
+  - conda build conda
+
   # Install dependencies in conda test environment
-  - conda create -q -n test-environment python=$MYCONDAPY pycodestyle nose coverage pylint future numpy conda-build anaconda-client
+  - conda install create -q -n test-environment python=$MYCONDAPY pycodestyle nose coverage pylint future numpy anaconda-client
   - source activate test-environment
   - pip install pydocstyle
 
   # Packaging
   - python setup.py sdist
-  - DERIVCHECK_VERSION=$(pythin -c "import setup; print setup.get_version()")
-  - echo "{% set version = "${DERIVCHECK_VERSION}"  %}" > conda/meta.yaml
-  - cat conda/meta.yaml.template >> conda/meta.yaml
-  - conda build conda
 
   # Installation
   - conda install --use-local derivcheck
