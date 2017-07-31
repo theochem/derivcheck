@@ -24,13 +24,24 @@ install:
   # Install dependencies in conda test environment
   - conda create -q -n test-environment python=$MYCONDAPY pycodestyle pydocstyle nose coverage pylint future numpy
   - source activate test-environment
+
+  # Packaging
+  - python setup.py sdist
+  - DERIVCHECK_VERSION=$(pythin -c "import setup; print setup.get_version()")
+  - echo "{% set version = "${DERIVCHECK_VERSION}"  %}" > conda/meta.yaml
+  - cat conda/meta.yaml.template >> conda/meta.yaml
+  - conda build conda
+
+  # Installation
+  - conda install --use-local derivcheck
 script:
-  - python setup.py nosetests
+  # Test outside source tree, to make sure we test the installed version.
+  - (cd; nosetests derivcheck)
+  # Code quality tests...
   - pycodestyle derivcheck.py basic_example.py setup.py
   - pycodestyle --ignore=E731 test_derivcheck.py
   - pydocstyle setup.py derivcheck.py test_derivcheck.py basic_example.py
   - pylint derivcheck.py test_derivcheck.py basic_example.py
-  - python setup.py sdist
 deploy:
   # two different release mechanisms, one for stable and one for pre releases.
   - provider: releases

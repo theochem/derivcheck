@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
 
-rm -vf *.pyc
+rm -vf *.pyc */*.pyc
 rm -vf .coverage
 rm -rvf derivcheck.egg-info
 rm -rvf build
 rm -rvf dist
+rm -vf record.txt

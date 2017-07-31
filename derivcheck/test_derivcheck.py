@@ -20,13 +20,15 @@
 """Unit tests for derivcheck."""
 
 
-from builtins import range  # pylint: disable=redefined-builtin
+import os
+import sys
 
+from builtins import range  # pylint: disable=redefined-builtin
 from nose.tools import assert_raises
 import numpy as np
 
 from derivcheck import diff_ridders, assert_deriv
-from basic_example import main as example_main
+from .basic_example import main as example_main
 
 
 def test_ridders_corner_cases():

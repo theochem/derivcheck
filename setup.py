@@ -29,34 +29,33 @@ Alternatively, you can install from source with
     ./setup.py install --user
 """
 
-from setuptools import setup
-
 
 def get_version():
     """Return the version string from the module without importing it."""
-    with open('derivcheck.py') as fpy:
+    with open('derivcheck/__init__.py') as fpy:
         for line in fpy:
             if line.startswith('__version__'):
                 return line.split('\'')[1]
 
-
-setup(
-    name='derivcheck',
-    version=get_version(),
-    description='A robust and very sensitive tester for analytic derivatives.',
-    author='Toon Verstraelen',
-    author_email='Toon.Verstraelen@UGent.be',
-    url='https://github.com/tovrstra/derivcheck',
-    py_modules=['derivcheck'],
-    install_requires=['numpy', 'future'],
-    python_requires='>=2.7',
-    setup_requires=['nose>=1.0', 'coverage'],
-    classifiers=[
-        'Environment :: Console',
-        'Intended Audience :: Science/Research',
-        'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
-        'Operating System :: POSIX :: Linux',
-        'Programming Language :: Python :: 2.7',
-        'Programming Language :: Python :: 3',
-    ],
-)
+if __name__ == '__main__':
+    from setuptools import setup
+    setup(
+        name='derivcheck',
+        version=get_version(),
+        description='A robust and very sensitive tester for analytic derivatives.',
+        author='Toon Verstraelen',
+        author_email='Toon.Verstraelen@UGent.be',
+        url='https://github.com/tovrstra/derivcheck',
+        packages=['derivcheck'],
+        install_requires=['numpy', 'future'],
+        python_requires='>=2.7',
+        setup_requires=['nose>=1.0', 'coverage'],
+        classifiers=[
+            'Environment :: Console',
+            'Intended Audience :: Science/Research',
+            'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
+            'Operating System :: POSIX :: Linux',
+            'Programming Language :: Python :: 2.7',
+            'Programming Language :: Python :: 3',
+        ],
+    )

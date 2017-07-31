@@ -1,5 +1,4 @@
-include basic_example.py
-include test_derivcheck.py
 include pylintrc
 include LICENSE.txt
 include clean.sh
+include conda/*

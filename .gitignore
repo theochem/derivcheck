@@ -1,6 +1,7 @@
 *.pyc
 .coverage
 .eggs
+record.txt
 derivcheck.egg-info
 build
 dist
