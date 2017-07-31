@@ -109,9 +109,10 @@ The function ``assert_deriv`` takes several optional arguments to tune its behav
 Release history
 ===============
 
-- 1.1.0
+- **2017-08-01** 1.1.0
 
-  Tests are now included with the installed module.
+  - Tests are now included with the installed module.
+  - Experimental: deployment to github, pypi and anaconda.
 
 - **2017-07-30** 1.0.2
 
@@ -142,12 +143,13 @@ Release history
 How to make a release (Github, PyPI and anaconda.org)
 =====================================================
 
-Before you do this, make sure everything is OK. The PyPI steps cannot be undone. If you
+Before you do this, make sure everything is OK. The PyPI releases cannot be undone. If you
 delete a file from PyPI (because of a mistake), you cannot upload the fixed file with the
 same filename! See https://github.com/pypa/packaging-problems/issues/74
 
 The following steps are tested on an Linux system, with Miniconda and twine installed. In
-your conda environment, you also need to install ``conda-build`` and ``anaconda-client``.
+your conda root environment, you also need to install ``conda-build`` and
+``anaconda-client``.
 
 1. Update the ``__version__`` variable in ``derivhceck.py`` if not done yet. Make use of
    semantic versioning: http://semver.org/
@@ -157,43 +159,3 @@ your conda environment, you also need to install ``conda-build`` and ``anaconda-
    repeat step 3.
 5. Make a git version tag: ``git tag $(python -c 'import derivcheck; print(derivcheck.__version__)')``
 6. Push to github with tags: ``git push origin master --tags``
-7. Make a source archive: ``./setup.py sdist``
-8. Upload the source tar file to github.com, using your browser. See
-   https://help.github.com/articles/creating-releases/
-9. Upload the source tar file to PyPI: ``twine upload dist/derivhceck*.tar.gz``
-10. Get the sha256 checksum of the source file: ``sha256sum dist/derivcheck*.tar.gz``
-11. Update the ``version`` and ``sha256`` fields in ``conda/meta.yml``.
-12. Build the conda package: ``conda build conda/`` Take note of the location of the
-    package for the following step.
-13. Upload the conda package: ``anaconda login; anaconda upload <package path>``
-14. Commit the updated conda file and push to github.
-
-This is not ideal yet because the changes in the conda file are committed after the
-release. Idealy the conda file gets hosted on https://conda-forge.org/.
-
-In future, this should become fully automated: as soon as a tag is pushed with a version
-number, the entire process should be carried out automatically. A few special things are
-needed to make this work:
-
-- Include all of the above steps in the Travis script. A release should only be made if
-  all tests pass.
-
-  - General Travis deployment docs: https://docs.travis-ci.com/user/deployment/
-  - Documentation for Github releases: https://docs.travis-ci.com/user/deployment/releases/
-  - Documentation for Pypi releases: https://docs.travis-ci.com/user/deployment/pypi/
-  - Example for anaconda: https://gist.github.com/yoavram/05a3c04ddcf317a517d5
-
-- Some more jinja tricks are needed in the meta.yml files, which we have to render
-  before passing to `conda build`, to fill in version and sha256 sum.
-- Anaconda, Pypi and Github credentials should somehow be known to Travis. To do this
-  safely, encryption is needed, which is explained here:
-  https://docs.travis-ci.com/user/encryption-keys/
-- Anaconda tokens are ideal for accessing the repo with limited features:
-  https://docs.continuum.io/anaconda-cloud/user-guide/tasks/work-with-accounts#creating-access-tokens
-- A distinction should be made between alpha, beta and stable releases:
-
-  - PyPI does not allow separate "channels" for alpha and beta releases. Only stable
-    releases should be uploaded. If not, people will just upgrade into development
-    versions without realizing it.
-  - Anaconda labels can be used to mark alpha and beta releases, default is stable (main).
-  - Github can make a distinction between stable and pre- releases.
