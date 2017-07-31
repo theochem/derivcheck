@@ -17,13 +17,13 @@ install:
   - hash -r
   - conda config --set always_yes yes --set changeps1 no
   - conda update -q conda
-  - conda config --add channels conda-forge
   # Useful for debugging any issues with conda
   - conda info -a
 
   # Install dependencies in conda test environment
-  - conda create -q -n test-environment python=$MYCONDAPY pycodestyle pydocstyle nose coverage pylint future numpy
+  - conda create -q -n test-environment python=$MYCONDAPY pycodestyle nose coverage pylint future numpy conda-build anaconda-client
   - source activate test-environment
+  - pip install pydocstyle
 
   # Packaging
   - python setup.py sdist
