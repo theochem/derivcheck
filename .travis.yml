@@ -3,8 +3,6 @@ language: python
 python:
 - '2.7'
 - '3.6'
-branches:
-  except: "/^\\d+\\.\\d+(\\.\\d+)$/"
 install:
 - pip install pycodestyle pydocstyle nose coverage pylint future --upgrade
 script:
