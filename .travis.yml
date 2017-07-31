@@ -2,70 +2,78 @@ sudo: false
 # Do not use Travis Python to save some time.
 language: generic
 env:
+  matrix:
   - MYCONDAPY=2.7
   - MYCONDAPY=3.6
+  global:
+    secure: RvKrfBJw2xkFQhm7HG8aBQaxpUMh/y+fT2qzXmHEVvi/h3eqaZQ/JE1b+Lla1SFTvECMEeJ5jORw1rX8aiXCVp49t898VAZetgrX6nlJhjqo4VgtHHvmj1mq4cGWM00bEiPyKkd3FOysFgzj2D91bfIarAt6mAkHP10QajEQsEs8icrYTcqkleYeLKzPzoNJRWsXvpD7+SoWRsb2CSaIb5LX9viD3ooW3rDOs1tuOEOz+Fe5XblfEHEReJsG2Ef61z2M32zZFF+UX2ZrVA33EmoM05VfyEZsEE2U3odMdGoposvJG/NNWwf2cMdFPxFqXoOFg1hDsP8bwir8Qk9f+HuG8zo50bzxPM+en3FdXrRUral0R8m30smOea7XeLE6mzFd289tV4mbrFlov3U61b2jM145m520pklk3/EA8QlhUuanzxpz1B3w81WFfMV12GGOyA7SnWe/r6PMty3K45XT9CIxFXnOYv4vG/tfBDpZer2RoUG7Jsl9epA4mvdTAgI9/SnPi9ah37XBYF2xJQH+5sWrb9jaEkL8fzpdpU+eo0mo5NA7WkKTqQHWc9uVsds6QdRGH0leDu+4hyMpVgVijG13Ypwkr+uzp0TQ3EMdM7QrB7LEVu/aTbIS0VXCGYBw48ouKYvf0k3YbWPj4Y/usSx0CaMOo06gx1kmuF0=
 install:
-  # We do this conditionally because it saves us some downloading if the
-  # version is the same.
-  - if [[ "$MYCONDAPY" == "2.7" ]]; then
-      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
-    else
-      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
-    fi
-  - bash miniconda.sh -b -p $HOME/miniconda
-  - export PATH="$HOME/miniconda/bin:$PATH"
-  - hash -r
-  - conda config --set always_yes yes --set changeps1 no
-  - conda update -q conda
-  - conda install conda-build
-  # Useful for debugging any issues with conda
-  - conda info -a
-
-  # Build package
-  - DERIVCHECK_VERSION=$(python -c "import setup; print(setup.get_version())")
-  - echo "{% set version = \"${DERIVCHECK_VERSION}\" %}" > conda.recipe/meta.yaml
-  - cat conda.recipe/meta.yaml.template >> conda.recipe/meta.yaml
-  - cat conda.recipe/meta.yaml
-  - conda build -q conda.recipe
-
-  # Install dependencies in conda test environment
-  - conda create -q -n test-environment python=$MYCONDAPY nose coverage future numpy anaconda-client
-  - source activate test-environment
-  # Pip can get confused by our setup.cfg
-  - (cd; pip install pydocstyle pycodestyle pylint)
-
-  # Packaging
-  - python setup.py sdist
-
-  # Installation
-  - conda install --use-local derivcheck
+- if [[ "$MYCONDAPY" == "2.7" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
+  -O miniconda.sh; else wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
+  -O miniconda.sh; fi
+- bash miniconda.sh -b -p $HOME/miniconda
+- export PATH="$HOME/miniconda/bin:$PATH"
+- hash -r
+- conda config --set always_yes yes --set changeps1 no
+- conda update -q conda
+- conda install conda-build
+- conda info -a
+- DERIVCHECK_VERSION=$(python -c "import setup; print(setup.get_version())")
+- echo "{% set version = \"${DERIVCHECK_VERSION}\" %}" > conda.recipe/meta.yaml
+- cat conda.recipe/meta.yaml.template >> conda.recipe/meta.yaml
+- cat conda.recipe/meta.yaml
+- conda build -q conda.recipe
+- conda create -q -n test-environment python=$MYCONDAPY nose coverage future numpy
+  anaconda-client
+- source activate test-environment
+- "(cd; pip install pydocstyle pycodestyle pylint)"
+- python setup.py sdist
+- conda install --use-local derivcheck
 script:
-  # Test outside source tree, to make sure we test the installed version.
-  - (cd; nosetests derivcheck)
-  # Code quality tests...
-  - pycodestyle derivcheck/__init__.py derivcheck/basic_example.py setup.py
-  - pycodestyle --ignore=E731 derivcheck/test_derivcheck.py
-  - pydocstyle setup.py derivcheck
-  - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
+- "(cd; nosetests derivcheck)"
+- pycodestyle derivcheck/__init__.py derivcheck/basic_example.py setup.py
+- pycodestyle --ignore=E731 derivcheck/test_derivcheck.py
+- pydocstyle setup.py derivcheck
+- pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
 deploy:
-  # two different release mechanisms, one for stable and one for pre releases.
-  - provider: releases
-    api_key:
-      secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
-    file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
-    on:
-      repo: tovrstra/derivcheck
-      tags: true
-      condition: '$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7'
-    prerelease: false
-    skip_cleanup: true
-  - provider: releases
-    api_key:
-      secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
-    file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
-    on:
-      repo: tovrstra/derivcheck
-      tags: true
-      condition: '$TRAVIS_TAG == *[ab]* && $MYCONDAPY == 2.7'
-    prerelease: true
-    skip_cleanup: true
+- provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
+  file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
+  on:
+    repo: tovrstra/derivcheck
+    tags: true
+    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7"
+  prerelease: false
+- provider: releases
+  skip_cleanup: true
+  api_key:
+    secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
+  file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
+  on:
+    repo: tovrstra/derivcheck
+    tags: true
+    condition: "$TRAVIS_TAG == *[ab]* && $MYCONDAPY == 2.7"
+  prerelease: true
+- provider: script
+  skip_cleanup: true
+  script: ./deploy_anaconda.sh alpha
+  on:
+    repo: tovrstra/derivcheck
+    tags: true
+    condition: "$TRAVIS_TAG == *a* && $MYCONDAPY == 2.7"
+- provider: script
+  skip_cleanup: true
+  script: ./deploy_anaconda.sh beta
+  on:
+    repo: tovrstra/derivcheck
+    tags: true
+    condition: "$TRAVIS_TAG == *b* && $MYCONDAPY == 2.7"
+- provider: script
+  skip_cleanup: true
+  script: ./deploy_anaconda.sh main
+  on:
+    repo: tovrstra/derivcheck
+    tags: true
+    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7"
