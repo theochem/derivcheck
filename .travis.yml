@@ -6,9 +6,10 @@ env:
   - MYCONDAPY=2.7
   - MYCONDAPY=3.6
   global:
+    # ANACONDA_TOKEN encrypted
     secure: RvKrfBJw2xkFQhm7HG8aBQaxpUMh/y+fT2qzXmHEVvi/h3eqaZQ/JE1b+Lla1SFTvECMEeJ5jORw1rX8aiXCVp49t898VAZetgrX6nlJhjqo4VgtHHvmj1mq4cGWM00bEiPyKkd3FOysFgzj2D91bfIarAt6mAkHP10QajEQsEs8icrYTcqkleYeLKzPzoNJRWsXvpD7+SoWRsb2CSaIb5LX9viD3ooW3rDOs1tuOEOz+Fe5XblfEHEReJsG2Ef61z2M32zZFF+UX2ZrVA33EmoM05VfyEZsEE2U3odMdGoposvJG/NNWwf2cMdFPxFqXoOFg1hDsP8bwir8Qk9f+HuG8zo50bzxPM+en3FdXrRUral0R8m30smOea7XeLE6mzFd289tV4mbrFlov3U61b2jM145m520pklk3/EA8QlhUuanzxpz1B3w81WFfMV12GGOyA7SnWe/r6PMty3K45XT9CIxFXnOYv4vG/tfBDpZer2RoUG7Jsl9epA4mvdTAgI9/SnPi9ah37XBYF2xJQH+5sWrb9jaEkL8fzpdpU+eo0mo5NA7WkKTqQHWc9uVsds6QdRGH0leDu+4hyMpVgVijG13Ypwkr+uzp0TQ3EMdM7QrB7LEVu/aTbIS0VXCGYBw48ouKYvf0k3YbWPj4Y/usSx0CaMOo06gx1kmuF0=
 install:
-# Get miniconda, right version to reduce time required to install python
+# Get miniconda. Take the right version, so re-installing python is not needed.
 - if [[ "$MYCONDAPY" == "2.7" ]]; then wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh
   -O miniconda.sh; else wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
   -O miniconda.sh; fi
@@ -19,26 +20,27 @@ install:
 # Configure conda and get a few essentials
 - conda config --set always_yes yes --set changeps1 no
 - conda update -q conda
-# Conda build must be installed in root env.
+# Conda-build must be installed in root env.
 - conda install conda-build
 - conda info -a
 
-# Get the version from git describe. No dashes allows by conda build.
+# Get the version from `git describe`. No dashes allowed by conda build.
 - DERIVCHECK_VERSION=$(git describe --tags | sed 's/-/_/g')
 - echo "{% set version = \"${DERIVCHECK_VERSION}\" %}" > conda.recipe/meta.yaml
 - cat conda.recipe/meta.yaml.template >> conda.recipe/meta.yaml
 - conda build -q conda.recipe
 
-# Set up the test environment
+# Set up the conda test environment.
 - conda create -q -n test-environment python=$MYCONDAPY nose coverage future numpy
   anaconda-client
 - source activate test-environment
 # Pip has more recent versions of the lint tools.
-# Install pip stuff after changing CWD away from source tree: our setup.cfg confuses pip.
-- "(cd; pip install pydocstyle pycodestyle pylint)"
+# Conda-forge broke at some point while writing this, so I'd rather to avoid it.
+- pip install pydocstyle pycodestyle pylint
 
 # Build source package, should work too and needed for deployment.
-- python setup.py sdist
+# ./setup.py options disable a zipped egg. Eggs are not compatible with nose and coverage.
+- python setup.py sdist --single-version-externally-managed --record=record.txt
 
 # Install Conda package
 - conda install --use-local derivcheck
@@ -50,14 +52,13 @@ script:
 - pycodestyle --ignore=E731 derivcheck/test_derivcheck.py
 - pydocstyle setup.py derivcheck
 - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
-# HACK! Remove setup.cfg because it confuses pip, which is used for deployment to PyPI.
-- rm setup.cfg
 
 # In deployment, the env var TRAVIS_TAG is used to make sure we only upload releases.
 deploy:
 - provider: releases
   skip_cleanup: true
   api_key:
+    # Encrypted github token
     secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
   file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
   on:
@@ -68,6 +69,7 @@ deploy:
 - provider: releases
   skip_cleanup: true
   api_key:
+    # Encrypted github token
     secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
   file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
   on:
@@ -100,6 +102,7 @@ deploy:
   skip_cleanup: true
   user: tovrstra
   password:
+    # Encrypted PyPI password
     secure: "frjVNIsilKp1rJifQSKZjSv6UylJFDOUHUvxmv6WqXEZu8H0waW7dZv6ihcKEanXugvCdzt4Ox1ir7pptDG85S+/OjiT9dx4A1LR3aF45EnccHO6qspLeDRDzJutDWiK5Iej6GIBHx4MZsaPq+FzQhCEmQ5B7MHoiCUzqGbc3sIU1YbiiFRbRk0q8EIkyU2KATR4u7AEo62EYyXPWTZqS3eiDGqBAnMRBpQFmjQ/g6mS8viISabaCJ1GoRMrGmqe9FUWJS2fX+xEtrX1yb/PN2W8gUPd2lAaBGf2fiY/H0+isyyMFxRHSFGOjbHMzveoV0qEGwizceWk7apgmk3KKbT3FF56K7GhW8cmSsGXGnVe4Zwe18CEfzSEUw2h7H9OoQ6jHuirHK2AvksZ75B2B1G625/S/OZWwImwJYaRiGbTnrb52GyD58cj8PdoGyD5Ot1L9YPB6uA7fpLbY+XDwSuCr2FiU1aDIUWwhXYuqi/uozOZIrCZ5MBFpf3jcl4dS1O1eZgkjPgiVp3ZAaWI9I0ii7ADg0uUq0IUuP6zciFnecPKElmjc1h53Uii7F1EJWhS3tk55mPqs1V28j3Te/MW5+eJDvXmOpDw1ib2rs9MXQkFV039DMdvKDN0dmbokO0hHJCz2e3O1Edl8An8mK4qxAnTS9n8hxSh33fU0Ao="
   on:
     repo: tovrstra/derivcheck
