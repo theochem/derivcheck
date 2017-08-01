@@ -23,7 +23,8 @@ Alternatively, you can install derivcheck in your home directory:
 
     pip install derivcheck --user
 
-Lastly, you can also install derivcheck with conda:
+Lastly, you can also install derivcheck with conda. (See
+https://www.continuum.io/downloads)
 
 .. code:: bash
 
@@ -33,7 +34,7 @@ Lastly, you can also install derivcheck with conda:
 Testing
 =======
 
-You need to install nosetestse with either pip or conda. One the following lines is
+You need to install nosetests, e.g. with pip or conda. One the following lines is
 suitable, depending on how you installed derivcheck (see above):
 
 .. code:: bash
@@ -147,14 +148,10 @@ Before you do this, make sure everything is OK. The PyPI releases cannot be undo
 delete a file from PyPI (because of a mistake), you cannot upload the fixed file with the
 same filename! See https://github.com/pypa/packaging-problems/issues/74
 
-The following steps are tested on an Linux system, with Miniconda and twine installed. In
-your conda root environment, you also need to install ``conda-build`` and
-``anaconda-client``.
-
 1. Update the release history.
 2. Commit the final changes to master and push to github.
 3. Wait for the CI tests to pass. Check if the README looks ok, etc. If needed, fix things
    and repeat step 2.
 4. Make a git version tag: ``git tag <some_new_version>`` Follow the semantic versioning
    guidelines: http://semver.org
-5. Push to github with tags: ``git push origin master --tags``
+5. Push the tag to github: ``git push origin master --tags``
