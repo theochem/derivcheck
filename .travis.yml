@@ -40,7 +40,7 @@ install:
 
 # Build source package, should work too and needed for deployment.
 # ./setup.py options disable a zipped egg. Eggs are not compatible with nose and coverage.
-- python setup.py sdist --single-version-externally-managed --record=record.txt
+- python setup.py sdist
 
 # Install Conda package
 - conda install --use-local derivcheck
