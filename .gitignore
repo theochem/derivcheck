@@ -5,3 +5,4 @@ record.txt
 derivcheck.egg-info
 build
 dist
+derivcheck/version.py

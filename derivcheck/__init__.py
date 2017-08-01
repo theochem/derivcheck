@@ -22,13 +22,11 @@
 from __future__ import print_function
 
 from builtins import range, object  # pylint: disable=redefined-builtin
-
 import numpy as np
 
+from .version import __version__
 
 __all__ = ['diff_ridders', 'assert_deriv']
-
-__version__ = '1.1.1a1'
 
 
 def diff_ridders(function, origin, stepsize, con=1.4, safe=2.0, maxiter=15):

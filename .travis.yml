@@ -23,8 +23,8 @@ install:
 - conda install conda-build
 - conda info -a
 
-# Get the version string from the package and build package
-- DERIVCHECK_VERSION=$(python -c "import setup; print(setup.get_version())")
+# Get the version from git describe
+- DERIVCHECK_VERSION=$(git describe --tags)
 - echo "{% set version = \"${DERIVCHECK_VERSION}\" %}" > conda.recipe/meta.yaml
 - cat conda.recipe/meta.yaml.template >> conda.recipe/meta.yaml
 - conda build -q conda.recipe
@@ -50,12 +50,10 @@ script:
 - pycodestyle --ignore=E731 derivcheck/test_derivcheck.py
 - pydocstyle setup.py derivcheck
 - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
-- if [[ ! -z ${TRAVIS_TAG} && ! -f dist/derivcheck-${TRAVIS_TAG}.tar.gz ]]; then
-  echo "source release dist/derivcheck-${TRAVIS_TAG}.tar.gz not found";
-  exit 1;
-  fi
 # HACK! Remove setup.cfg because it confuses pip, which is used for deployment to PyPI.
 - rm setup.cfg
+
+# In deployment, the env var TRAVIS_TAG is used to make sure we only upload releases.
 deploy:
 - provider: releases
   skip_cleanup: true
