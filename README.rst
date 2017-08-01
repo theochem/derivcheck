@@ -34,16 +34,7 @@ https://www.continuum.io/downloads)
 Testing
 =======
 
-You need to install nosetests, e.g. with pip or conda. One the following lines is
-suitable, depending on how you installed derivcheck (see above):
-
-.. code:: bash
-
-    pip install nose
-    pip install nose --user
-    conda install nose
-
-Then you can run the tests:
+The tests can be executed as follows:
 
 .. code:: bash
 

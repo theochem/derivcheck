@@ -31,22 +31,21 @@ install:
 - conda build -q conda.recipe
 
 # Set up the conda test environment.
-- conda create -q -n test-environment python=$MYCONDAPY nose coverage future numpy
-  anaconda-client
+- conda create -q -n test-environment python=$MYCONDAPY coverage anaconda-client
 - source activate test-environment
-# Pip has more recent versions of the lint tools.
-# Conda-forge broke at some point while writing this, so I'd rather to avoid it.
+# Pip has more recent versions of the lint tools than plain conda.
+# Conda-forge broke at some point while writing this, so I'd rather avoid it.
 - pip install pydocstyle pycodestyle pylint
 
 # Build source package, should work too and needed for deployment.
-# ./setup.py options disable a zipped egg. Eggs are not compatible with nose and coverage.
 - python setup.py sdist
 
 # Install Conda package
 - conda install --use-local derivcheck
 script:
 # Run tests out of source tree, to make sure that installed version is tested.
-- "(cd; nosetests derivcheck)"
+# Many options are added to get a thorough coverage analysis.
+- "(cd; nosetests derivcheck -v --processes= --detailed-errors --with-coverage --cover-package=derivcheck --cover-tests --cover-erase --cover-inclusive --cover-branches --cover-min-percentage=100)"
 # Code quality checks
 - pycodestyle derivcheck/__init__.py derivcheck/basic_example.py setup.py
 - pycodestyle --ignore=E731 derivcheck/test_derivcheck.py

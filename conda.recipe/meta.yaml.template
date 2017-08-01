@@ -16,11 +16,10 @@ requirements:
     - python
     - numpy
     - future
+    - nose
   build:
     - python
     - setuptools
-    - numpy
-    - future
 
 about:
   dev_url: https://github.com/tovrstra/derivcheck
