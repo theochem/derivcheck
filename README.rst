@@ -153,8 +153,8 @@ your conda root environment, you also need to install ``conda-build`` and
 
 1. Update the release history.
 2. Commit the final changes to master and push to github.
-3. Wait for the tests to pass. Check if the website looks ok, etc. If not, fix things and
-   repeat step 2.
+3. Wait for the CI tests to pass. Check if the README looks ok, etc. If needed, fix things
+   and repeat step 2.
 4. Make a git version tag: ``git tag <some_new_version>`` Follow the semantic versioning
    guidelines: http://semver.org
 5. Push to github with tags: ``git push origin master --tags``
