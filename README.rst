@@ -101,6 +101,10 @@ The function ``assert_deriv`` takes several optional arguments to tune its behav
 Release history
 ===============
 
+- **2017-08-01** 1.1.2
+
+  Remove unused dependency on future.
+
 - **2017-08-01** 1.1.1
 
   Fix dependencies to simplify testing.
