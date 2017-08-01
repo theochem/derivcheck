@@ -1,6 +1,6 @@
 package:
   version: '{{ GIT_DESCRIBE_HASH }}'
-  name: '{{ derivcheck }}'
+  name: 'derivcheck'
 
 source:
   path: ../
