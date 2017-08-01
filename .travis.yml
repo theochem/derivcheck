@@ -82,21 +82,21 @@ deploy:
   on:
     repo: tovrstra/derivcheck
     tags: true
-    condition: "$TRAVIS_TAG == *a* && $MYCONDAPY == 2.7"
+    condition: "$TRAVIS_TAG == *a*"
 - provider: script
   skip_cleanup: true
   script: ./deploy_anaconda.sh beta
   on:
     repo: tovrstra/derivcheck
     tags: true
-    condition: "$TRAVIS_TAG == *b* && $MYCONDAPY == 2.7"
+    condition: "$TRAVIS_TAG == *b"
 - provider: script
   skip_cleanup: true
   script: ./deploy_anaconda.sh main
   on:
     repo: tovrstra/derivcheck
     tags: true
-    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7"
+    condition: "$TRAVIS_TAG != *[ab]*"
 - provider: pypi
   skip_cleanup: true
   user: tovrstra
