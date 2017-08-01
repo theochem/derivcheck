@@ -6,4 +6,3 @@ derivcheck.egg-info
 build
 dist
 derivcheck/version.py
-conda.recipe/meta.yaml

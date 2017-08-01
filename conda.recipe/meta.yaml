@@ -1,8 +1,6 @@
-{% set name = "derivcheck" %}
-
 package:
-  version: '{{ version }}'
-  name: '{{ name|lower }}'
+  version: '{{ GIT_DESCRIBE_HASH }}'
+  name: '{{ derivcheck }}'
 
 source:
   path: ../
