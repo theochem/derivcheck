@@ -26,7 +26,7 @@ install:
 # Get the right python version for building. This only does something for 3.5
 - conda install python=${MYCONDAPY}
 # Install building/running/testing dependencies for package derivcheck
-- conda install coverage anaconda-client
+- conda install coverage
 # Install conda tools for packaging and uploading
 - conda install conda-build anaconda-client
 - conda info -a
