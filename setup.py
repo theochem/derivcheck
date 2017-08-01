@@ -40,7 +40,7 @@ import sys
 __version__ = None
 try:
     __version__ = subprocess.check_output(["git", "describe", "--tags"])
-    __version__ = __version__.decode('utf-8').strip()
+    __version__ = __version__.decode('utf-8').strip().replace('-', '_')
 except OSError:
     pass
 
