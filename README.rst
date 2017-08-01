@@ -33,8 +33,8 @@ Lastly, you can also install derivcheck with conda:
 Testing
 =======
 
-First you need to install nosetest and coverage with either pip or conda. One the
-following lines is suitable, depending on how you installed derivcheck (see above):
+You need to install nosetestse with either pip or conda. One the following lines is
+suitable, depending on how you installed derivcheck (see above):
 
 .. code:: bash
 
