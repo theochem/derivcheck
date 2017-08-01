@@ -15,7 +15,6 @@ requirements:
   run:
     - python
     - numpy
-    - future
     - nose
   build:
     - python

@@ -74,7 +74,7 @@ if __name__ == '__main__':
         author_email='Toon.Verstraelen@UGent.be',
         url='https://github.com/tovrstra/derivcheck',
         packages=['derivcheck'],
-        install_requires=['numpy', 'future', 'nose'],
+        install_requires=['numpy', 'nose'],
         python_requires='>=2.7',
         classifiers=[
             'Environment :: Console',

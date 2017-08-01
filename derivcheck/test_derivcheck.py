@@ -19,8 +19,6 @@
 # --
 """Unit tests for derivcheck."""
 
-
-from builtins import range  # pylint: disable=redefined-builtin
 from nose.tools import assert_raises
 import numpy as np
 
