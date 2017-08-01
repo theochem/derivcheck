@@ -38,9 +38,9 @@ following lines is suitable, depending on how you installed derivcheck (see abov
 
 .. code:: bash
 
-    pip install nose coverage
-    pip install nose coverage --user
-    conda install nose coverage
+    pip install nose
+    pip install nose --user
+    conda install nose
 
 Then you can run the tests:
 
