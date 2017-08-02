@@ -90,7 +90,7 @@ deploy:
   on:
     repo: tovrstra/derivcheck
     tags: true
-    condition: "$TRAVIS_TAG == *b"
+    condition: "$TRAVIS_TAG == *b*"
 - provider: script
   skip_cleanup: true
   script: ./deploy_anaconda.sh main
