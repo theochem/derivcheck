@@ -41,7 +41,9 @@ __version__ = None
 try:
     git_describe = subprocess.check_output(["git", "describe", "--tags"])
     semver, devnum = git_describe.decode('utf-8').strip().split('-')[:2]
-    __version__ = '{}.dev{}'.format(semver, devnum)
+    __version__ = version_words[0]
+    if len(version_words) > 1:
+        __version__ += '.dev' + version_words[1]
 except subprocess.CalledProcessError:
     pass
 
