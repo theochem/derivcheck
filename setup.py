@@ -39,8 +39,9 @@ import sys
 # Try to get the version from git describe
 __version__ = None
 try:
-    __version__ = subprocess.check_output(["git", "describe", "--tags"])
-    __version__ = __version__.decode('utf-8').strip().replace('-', '_')
+    git_describe = subprocess.check_output(["git", "describe", "--tags"])
+    semver, devnum = git_describe.decode('utf-8').strip().split('-')[:2]
+    __version__ = '{}.dev{}'.format(semver, devnum)
 except subprocess.CalledProcessError:
     pass
 
