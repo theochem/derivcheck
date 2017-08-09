@@ -36,7 +36,7 @@ import subprocess
 import sys
 
 
-pypkg="derivcheck"
+pypkg = "derivcheck"
 
 # Try to get the version from git describe
 __version__ = None
@@ -58,7 +58,7 @@ version_template = """\
 __version__ = '{}'
 """
 if __version__ is None:
-    print('Trying to get the version from {}',format(fn_version))
+    print('Trying to get the version from {}', format(fn_version))
     # Try to load the git version tag from version.py
     try:
         with open(fn_version, 'r') as fh:
