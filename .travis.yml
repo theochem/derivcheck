@@ -114,21 +114,21 @@ deploy:
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
-    condition: "$TRAVIS_TAG == *a*"
+    condition: "$TRAVIS_TAG == *a*" && $TRAVIS_OS_NAME == linux"
 - provider: script
   skip_cleanup: true
   script: anaconda -t $ANACONDA_TOKEN upload -l beta conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
-    condition: "$TRAVIS_TAG == *b*"
+    condition: "$TRAVIS_TAG == *b*" && $TRAVIS_OS_NAME == linux"
 - provider: script
   skip_cleanup: true
   script: anaconda -t $ANACONDA_TOKEN upload conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
-    condition: "$TRAVIS_TAG != *[ab]*"
+    condition: "$TRAVIS_TAG != *[ab]*" && $TRAVIS_OS_NAME == linux"
 - provider: pypi
   skip_cleanup: true
   user: tovrstra
