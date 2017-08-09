@@ -86,6 +86,7 @@ if __name__ == '__main__':
         packages=['derivcheck'],
         install_requires=['numpy', 'nose'],
         python_requires='>=2.7',
+        zip_safe=False,
         classifiers=[
             'Environment :: Console',
             'Intended Audience :: Science/Research',

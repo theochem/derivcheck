@@ -1,5 +1,7 @@
 .. image:: https://travis-ci.org/tovrstra/derivcheck.svg?branch=master
     :target: https://travis-ci.org/tovrstra/derivcheck
+.. image:: https://ci.appveyor.com/api/projects/status/c6kqul0igv6fsy8l/branch/master?svg=true
+    :target: https://ci.appveyor.com/project/tovrstra/derivcheck
 .. image:: https://anaconda.org/tovrstra/derivcheck/badges/version.svg
     :target: https://anaconda.org/tovrstra/derivcheck
 
