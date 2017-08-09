@@ -16,6 +16,8 @@ requirements:
     - nose
   build:
     - python
+    - numpy
+    - nose
     - setuptools
 
 about:
