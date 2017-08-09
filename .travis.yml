@@ -1,110 +1,139 @@
-sudo: false
-# Do not use Travis Python to save some time.
-language: generic
 env:
   matrix:
   - MYCONDAPY=2.7
   - MYCONDAPY=3.5
   - MYCONDAPY=3.6
   global:
-    # ANACONDA_TOKEN encrypted
-    secure: RvKrfBJw2xkFQhm7HG8aBQaxpUMh/y+fT2qzXmHEVvi/h3eqaZQ/JE1b+Lla1SFTvECMEeJ5jORw1rX8aiXCVp49t898VAZetgrX6nlJhjqo4VgtHHvmj1mq4cGWM00bEiPyKkd3FOysFgzj2D91bfIarAt6mAkHP10QajEQsEs8icrYTcqkleYeLKzPzoNJRWsXvpD7+SoWRsb2CSaIb5LX9viD3ooW3rDOs1tuOEOz+Fe5XblfEHEReJsG2Ef61z2M32zZFF+UX2ZrVA33EmoM05VfyEZsEE2U3odMdGoposvJG/NNWwf2cMdFPxFqXoOFg1hDsP8bwir8Qk9f+HuG8zo50bzxPM+en3FdXrRUral0R8m30smOea7XeLE6mzFd289tV4mbrFlov3U61b2jM145m520pklk3/EA8QlhUuanzxpz1B3w81WFfMV12GGOyA7SnWe/r6PMty3K45XT9CIxFXnOYv4vG/tfBDpZer2RoUG7Jsl9epA4mvdTAgI9/SnPi9ah37XBYF2xJQH+5sWrb9jaEkL8fzpdpU+eo0mo5NA7WkKTqQHWc9uVsds6QdRGH0leDu+4hyMpVgVijG13Ypwkr+uzp0TQ3EMdM7QrB7LEVu/aTbIS0VXCGYBw48ouKYvf0k3YbWPj4Y/usSx0CaMOo06gx1kmuF0=
+    # ANACONDA_TOKEN
+    - secure: RvKrfBJw2xkFQhm7HG8aBQaxpUMh/y+fT2qzXmHEVvi/h3eqaZQ/JE1b+Lla1SFTvECMEeJ5jORw1rX8aiXCVp49t898VAZetgrX6nlJhjqo4VgtHHvmj1mq4cGWM00bEiPyKkd3FOysFgzj2D91bfIarAt6mAkHP10QajEQsEs8icrYTcqkleYeLKzPzoNJRWsXvpD7+SoWRsb2CSaIb5LX9viD3ooW3rDOs1tuOEOz+Fe5XblfEHEReJsG2Ef61z2M32zZFF+UX2ZrVA33EmoM05VfyEZsEE2U3odMdGoposvJG/NNWwf2cMdFPxFqXoOFg1hDsP8bwir8Qk9f+HuG8zo50bzxPM+en3FdXrRUral0R8m30smOea7XeLE6mzFd289tV4mbrFlov3U61b2jM145m520pklk3/EA8QlhUuanzxpz1B3w81WFfMV12GGOyA7SnWe/r6PMty3K45XT9CIxFXnOYv4vG/tfBDpZer2RoUG7Jsl9epA4mvdTAgI9/SnPi9ah37XBYF2xJQH+5sWrb9jaEkL8fzpdpU+eo0mo5NA7WkKTqQHWc9uVsds6QdRGH0leDu+4hyMpVgVijG13Ypwkr+uzp0TQ3EMdM7QrB7LEVu/aTbIS0VXCGYBw48ouKYvf0k3YbWPj4Y/usSx0CaMOo06gx1kmuF0=
+    # GITHUB_TOKEN
+    - secure: "y+VW4fCyYXm29VF/3LYcCQHorpdGNvXpky4CbVwQ7x3fo+00wntWBQE71N1oy0RNHoOnYtuHsPrHKJvCZHWyZPNe6H444iEYWKTjFblei+onYrrdIZO6azdPJRnlpvjwXyFUor8K8UuwgMtNZsUzQN+ZpgQhEkpR8uYyoXPrXh6q86+9RcGkMc2yg6O3y/ExiAj70rR/ACrgyKrEXY/CHU7qLW+jQDk0SCD78JqRIgxP/efZs6HEotB6uQldF1Fmw1zW2BXovdlWZ3itXqdP8b/GIaW8cyyxp7iK6eWUsvOsn1hZHpIeCDLIdM0crkaPeiK9xsH2vEKDVFk26Z82QCxDBV6txMdXAXTj8uqYFrcUH/2VF0c4L9iGJaJEMo16mIbgyBT/X+9fd0Trypo5MIqaVGCNIpVhagqpRzYEYkCdRDeN4/fibtNSC9eYAXgtiQ2L6DMoSb2tbiEY9o36KIWOFOxnX2V7Xz1X5BzmDfKnPm6KJB8G327LHOODjiQ6jUH6j8/1qGwo2RkQ7uwMErNtnws7OT2t6mn9Scrn5VI1pQRjYP22sb9lU0wqVLUurBHQpJ+9MdUHhnegW1zdIFqfBfBFzKD0yF0uaP2sWcBoFUu0sdXc2jFE4J/5ViUKHTMYgH6921s5sjRhHU+UGb3YIe/UiD179nyoVpYAffI="
+    # PYPI_PASSWD
+    - secure: "gTOJ3qAJ4qeL/Sbm8lEG11CYjeT7gB/TDEUp1b0JebP9JErhPbHZXMFYroCSRZF1tJjjqOjF2fQw85m78oodtwtC7Oalwn7QJ/NYvf4pjnD85Mu22Brf1qobplErBTJGNXmlillDigpS/83eWTZYJQ2nyNbOXUoATn1ckjib4Y2qKHyVnUR0OLBr2VgCpKgwiYC5ZRQN1q8D/2Vbu/N6gtC8CElJJQa72lAqgIPENilexCUbrm5WtNrWMDoulnZOBUDyQs8hchqmIIkB2n33oyZoP8wPpc2eCXxWmUsz5fl8UuSSQTtSsBP60lfMLped8YOMx0jmnLPetRCMt/N33nUy3bQs8QHa1tO/io72lARcKPPkFMxsIfy//GAHP8XVXfzgpcu/NFlNiMS31X6EeILAjAVAKbBTS8jz2NdI37eqPgJGFR5c/TvORtKpmHtiSMspwFRZiJDnSyEVOwCaHtNK1iwWTbawlEC4LXvFjdzO8aF2angC1s1Q9+AntCie/3Z4kZOxyEy8jd/lum26EP6KOOLN86rGEbOe5SdkmfZRuDRoJ+ceq2kT9i0FQJQ6aYHIql4y7xFABAxMOT86MmTrdnjgt2q9aYn1wwDVQEDHKmIFjVnC5uT8Ln7sJFo8Xs4IlOVxY2P6xkDWVr1TZyU/M6HM6b8AA+oV1vwBZPM="
+    - PYPKG=derivcheck
+    - GITHUB_REPO_NAME=tovrstra/derivcheck
+
+# Do not use Travis Python to save some time.
+language: generic
+os:
+  - linux
+  - osx
+osx_image: xcode6.4
+dist: trusty
+sudo: false
+
+branches:
+  only:
+    - master
+
 install:
 # Get miniconda. Take the right version, so re-installing python is only needed for 3.5.
 - if [[ "$MYCONDAPY" == "2.7" ]]; then
-     wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda2-latest-MacOSX-x86_64.sh -O miniconda.sh;
+    fi;
   else
-     wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh;
+    else
+      wget https://repo.continuum.io/miniconda/Miniconda3-latest-MacOSX-x86_64.sh -O miniconda.sh;
+    fi;
   fi
 - bash miniconda.sh -b -p $HOME/miniconda
-- export PATH="$HOME/miniconda/bin:$PATH"
+- source $HOME/miniconda/bin/activate
 - hash -r
 
 # Configure conda and get a few essentials
 - conda config --set always_yes yes --set changeps1 no
+# Needed for compiler('c') function, temporary solution:
+# https://github.com/conda/conda-build/issues/2263
+- conda config --add channels c3i_test
 - conda update -q conda
-# Get the right python version for building. This only does something for 3.5
-- conda install python=${MYCONDAPY}
-# Install building/running/testing dependencies for package derivcheck
-- conda install coverage
+# Get the right python version for building. This only does something for 3.5.
+# Install extra package needed to make things work. Most things can be listed as
+# dependencies on metal.yaml and setup.py, unless setup.py already imports them.
 # Install conda tools for packaging and uploading
-- conda install conda-build anaconda-client
+- conda install python=${MYCONDAPY} numpy conda-build anaconda-client
 - conda info -a
-
-# Build the conda package
-- conda build -q conda.recipe
 
 # Pip has more recent versions of the lint tools than plain conda.
 # Conda-forge broke at some point while writing this, so I'd rather avoid it.
 - pip install pydocstyle pycodestyle pylint
 
-# Build source package, should work too and needed for deployment.
+script:
+# Build the conda package
+- git fetch origin --tags
+- conda build -q tools/conda.recipe
+
+# Build source package, should work too and needed for deployment to Github and
+# PyPI.
 - python setup.py sdist
 
 # Install Conda package
-- conda install --use-local derivcheck
-script:
-# Run tests out of source tree, to make sure that installed version is tested.
+- conda install --use-local $PYPKG
+
 # Many options are added to get a thorough coverage analysis.
-- "(cd; nosetests derivcheck -v --processes= --detailed-errors --with-coverage --cover-package=derivcheck --cover-tests --cover-erase --cover-inclusive --cover-branches --cover-min-percentage=100)"
+- "(cd; nosetests ${PYPKG} -v --processes= --detailed-errors --with-coverage --cover-package=${PYPKG} --cover-tests --cover-erase --cover-inclusive --cover-branches --cover-min-percentage=100)"
+
 # Code quality checks
 - pycodestyle derivcheck/__init__.py derivcheck/basic_example.py setup.py
 - pycodestyle --ignore=E731 derivcheck/test_derivcheck.py
 - pydocstyle setup.py derivcheck
 - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
 
-# In deployment, the env var TRAVIS_TAG contains the name of the current tag, if any.
+
+# For deployment, the env var TRAVIS_TAG contains the name of the current tag, if any.
+before_deploy:
+- conda convert --platform all $HOME/miniconda/conda-bld/linux-64/${PYPKG}-*.tar.bz2 --output-dir conda-bld/
+- cp $HOME/miniconda/conda-bld/linux-64/${PYPKG}-*.tar.bz2 conda-bld/
+
 deploy:
 - provider: releases
   skip_cleanup: true
-  api_key:
-    # Encrypted github token
-    secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
-  file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
+  api_key: ${GITHUB_TOKEN}
+  file: dist/${PYPKG}-${TRAVIS_TAG}.tar.gz
   on:
-    repo: tovrstra/derivcheck
+    repo: ${GITHUB_REPO_NAME}
     tags: true
-    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7"
+    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7 && $TRAVIS_OS_NAME == linux"
   prerelease: false
 - provider: releases
   skip_cleanup: true
-  api_key:
-    # Encrypted github token
-    secure: T+bNTJYuqx5rJTNH890E1AcQ2j1VGsV9klcc186TdblnyZgxkQFSJFLMkc8glhc4wjUsPhMjrA2vwLlfepHoU8CvrhyjXrosz/Gr5ETUdxCGBAPCtyKm7SnMYoYtJs9R53WqEAzLDS4TNJD/NvF+Gw5+6itn+PrGk115+HeVRMhL4A7F2GKTM1gTmpqsfxbbpmtQvpQMhdoV5O4ASqZWotdqytOV1YWVb+fI8S20A/XnkxdcjkgINaWBsxfHBMWobYKdDJcYXUxeO5FBIoLSOUiC1elp/8DCowT2BZSX+Zb4ETvGJs6ryyvYxSO90qg260Uc4j5NmMaTkRn3694D/bX4i7ZDzziY+2rK8zjIjswfUuDEcbdPPKnp/P9sFXOb90BSOxTwcYzJzJt46WDrvrWFa9Y+F2MT60fE9LZZ23TkEFAKYhC6FGbFZEGvBRdr8YgGvCgpAnwv3oJZk+8V648at/hYOTvL5mRY+R5cMr4lkf/Hw3hgrhB8BZ8DCWBD3fQNIkD9qrAJuJjOG5R44G4QAnA2EW8kzucDv/sjoRpx28Bbklpg97QgqTVL0GcEVYt6DnqHIHTYtKysnRSbDyXX8uX9z6R0TkdQOYsJhNI+3a046uU/Bd05MauwvEdDWcsUO2jnRHqj/8zpmxeyc8ND8b+3gInd3Ae+TQQ9yxE=
-  file: dist/derivcheck-${TRAVIS_TAG}.tar.gz
+  api_key: ${GITHUB_TOKEN}
+  file: dist/${PYPKG}-${TRAVIS_TAG}.tar.gz
   on:
-    repo: tovrstra/derivcheck
+    repo: ${GITHUB_REPO_NAME}
     tags: true
-    condition: "$TRAVIS_TAG == *[ab]* && $MYCONDAPY == 2.7"
+    condition: "$TRAVIS_TAG == *[ab]* && $MYCONDAPY == 2.7 && $TRAVIS_OS_NAME == linux"
   prerelease: true
 - provider: script
   skip_cleanup: true
-  script: ./deploy_anaconda.sh alpha
+  script: anaconda -t $ANACONDA_TOKEN upload -l alpha conda-bld/**/${PYPKG}-*.tar.bz2
   on:
-    repo: tovrstra/derivcheck
+    repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG == *a*"
 - provider: script
   skip_cleanup: true
-  script: ./deploy_anaconda.sh beta
+  script: anaconda -t $ANACONDA_TOKEN upload -l beta conda-bld/**/${PYPKG}-*.tar.bz2
   on:
-    repo: tovrstra/derivcheck
+    repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG == *b*"
 - provider: script
   skip_cleanup: true
-  script: ./deploy_anaconda.sh main
+  script: anaconda -t $ANACONDA_TOKEN upload conda-bld/**/${PYPKG}-*.tar.bz2
   on:
-    repo: tovrstra/derivcheck
+    repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG != *[ab]*"
 - provider: pypi
   skip_cleanup: true
   user: tovrstra
-  password:
-    # Encrypted PyPI password
-    secure: "frjVNIsilKp1rJifQSKZjSv6UylJFDOUHUvxmv6WqXEZu8H0waW7dZv6ihcKEanXugvCdzt4Ox1ir7pptDG85S+/OjiT9dx4A1LR3aF45EnccHO6qspLeDRDzJutDWiK5Iej6GIBHx4MZsaPq+FzQhCEmQ5B7MHoiCUzqGbc3sIU1YbiiFRbRk0q8EIkyU2KATR4u7AEo62EYyXPWTZqS3eiDGqBAnMRBpQFmjQ/g6mS8viISabaCJ1GoRMrGmqe9FUWJS2fX+xEtrX1yb/PN2W8gUPd2lAaBGf2fiY/H0+isyyMFxRHSFGOjbHMzveoV0qEGwizceWk7apgmk3KKbT3FF56K7GhW8cmSsGXGnVe4Zwe18CEfzSEUw2h7H9OoQ6jHuirHK2AvksZ75B2B1G625/S/OZWwImwJYaRiGbTnrb52GyD58cj8PdoGyD5Ot1L9YPB6uA7fpLbY+XDwSuCr2FiU1aDIUWwhXYuqi/uozOZIrCZ5MBFpf3jcl4dS1O1eZgkjPgiVp3ZAaWI9I0ii7ADg0uUq0IUuP6zciFnecPKElmjc1h53Uii7F1EJWhS3tk55mPqs1V28j3Te/MW5+eJDvXmOpDw1ib2rs9MXQkFV039DMdvKDN0dmbokO0hHJCz2e3O1Edl8An8mK4qxAnTS9n8hxSh33fU0Ao="
+  password: ${PYPI_PASSWD}
   on:
-    repo: tovrstra/derivcheck
+    repo: ${GITHUB_REPO_NAME}
     tags: true
-    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7"
+    condition: "$TRAVIS_TAG != *[ab]* && $MYCONDAPY == 2.7 && $TRAVIS_OS_NAME == linux"

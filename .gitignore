@@ -6,3 +6,4 @@ derivcheck.egg-info
 build
 dist
 derivcheck/version.py
+conda-bld
