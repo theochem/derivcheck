@@ -4,6 +4,8 @@
     :target: https://ci.appveyor.com/project/tovrstra/derivcheck
 .. image:: https://anaconda.org/tovrstra/derivcheck/badges/version.svg
     :target: https://anaconda.org/tovrstra/derivcheck
+.. image:: https://codecov.io/gh/theochem/derivcheck/branch/master/graph/badge.svg
+    :target: https://codecov.io/gh/theochem/derivcheck
 
 Derivcheck provides a robust and very sensitive checker of analytic partial
 derivates. It is intended to be used in unit tests of other projects. See
