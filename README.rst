@@ -1,7 +1,7 @@
-.. image:: https://travis-ci.org/tovrstra/derivcheck.svg?branch=master
-    :target: https://travis-ci.org/tovrstra/derivcheck
-.. image:: https://ci.appveyor.com/api/projects/status/c6kqul0igv6fsy8l/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/tovrstra/derivcheck
+.. image:: https://travis-ci.org/theochem/derivcheck.svg?branch=master
+    :target: https://travis-ci.org/theochem/derivcheck
+.. image:: https://ci.appveyor.com/api/projects/status/u6cxpy29rr0jjag1/branch/master?svg=true
+    :target: https://ci.appveyor.com/project/tovrstra/derivcheck-fy7m8
 .. image:: https://anaconda.org/tovrstra/derivcheck/badges/version.svg
     :target: https://anaconda.org/tovrstra/derivcheck
 .. image:: https://codecov.io/gh/theochem/derivcheck/branch/master/graph/badge.svg
