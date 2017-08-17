@@ -45,6 +45,9 @@ install:
   # A few things must be installed for the build and deployment steps. Also dependencies
   # for setup.py must be pre-installed.
   - conda install python=%PYTHON_VERSION% conda-build anaconda-client numpy
+  # Install codecov tool for uploading coverage reports
+  - pip install codecov coverage
+  # Show conda info for debugging
   - conda info -a
 
 build: false
@@ -58,4 +61,9 @@ test_script:
   - conda install --use-local %PYPKG%
 
   # Run the tests outside the source tree.
-  - pushd %HOMEPATH% && (nosetests %PYPKG% -v --processes= --detailed-errors --with-coverage --cover-package=%PYPKG% --cover-tests --cover-erase --cover-inclusive --cover-branches --cover-min-percentage=100 & popd)
+  - pushd %HOMEPATH% && (nosetests %PYPKG% -v --processes= --detailed-errors --with-coverage --cover-package=%PYPKG% --cover-tests --cover-erase --cover-inclusive --cover-branches --cover-xml & popd)
+
+
+after_test:
+  # Upload coverage reports
+  - 'codecov -f "%HOMEPATH%\coverage.xml"'

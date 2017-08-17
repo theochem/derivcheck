@@ -60,7 +60,7 @@ install:
 
 # Pip has more recent versions of the lint tools than plain conda.
 # Conda-forge broke at some point while writing this, so I'd rather avoid it.
-- pip install pydocstyle pycodestyle pylint
+- pip install pydocstyle pycodestyle pylint codecov coverage
 
 script:
 # Build the conda package
@@ -75,7 +75,7 @@ script:
 - conda install --use-local $PYPKG
 
 # Many options are added to get a thorough coverage analysis.
-- "(cd; nosetests ${PYPKG} -v --processes= --detailed-errors --with-coverage --cover-package=${PYPKG} --cover-tests --cover-erase --cover-inclusive --cover-branches --cover-min-percentage=100)"
+- "(cd; nosetests ${PYPKG} -v --processes= --detailed-errors --with-coverage --cover-package=${PYPKG} --cover-tests --cover-erase --cover-inclusive --cover-branches --cover-xml)"
 
 # Code quality checks
 - pycodestyle derivcheck/__init__.py derivcheck/basic_example.py setup.py
@@ -83,6 +83,9 @@ script:
 - pydocstyle setup.py derivcheck
 - pylint derivcheck/__init__.py derivcheck/test_derivcheck.py derivcheck/basic_example.py
 
+after_success:
+# Upload the coverage analysis
+- codecov -f ~/coverage.xml
 
 # For deployment, the env var TRAVIS_TAG contains the name of the current tag, if any.
 before_deploy:
