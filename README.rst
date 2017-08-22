@@ -105,6 +105,10 @@ The function ``assert_deriv`` takes several optional arguments to tune its behav
 Release history
 ===============
 
+- **2017-08-22** 1.1.3
+
+  Switch to theochem channel on anaconda.
+
 - **2017-08-01** 1.1.2
 
   Remove unused dependency on future.
