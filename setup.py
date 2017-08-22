@@ -35,13 +35,15 @@ from setuptools import setup
 
 from tools.gitversion import get_gitversion
 
+
 def readme():
+    """Load README.rst for display on PyPI."""
     with open('README.rst') as f:
         return f.read()
 
 setup(
     name='derivcheck',
-    version=get_gitversion('derivcheck', verbose=(__name__=='__main__')),
+    version=get_gitversion('derivcheck', verbose=(__name__ == '__main__')),
     description='A robust and very sensitive tester for analytic derivatives.',
     long_description=readme(),
     author='Toon Verstraelen',
