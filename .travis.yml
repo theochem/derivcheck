@@ -5,13 +5,13 @@ env:
   - MYCONDAPY=3.6
   global:
     # ANACONDA_TOKEN
-    - secure: RvKrfBJw2xkFQhm7HG8aBQaxpUMh/y+fT2qzXmHEVvi/h3eqaZQ/JE1b+Lla1SFTvECMEeJ5jORw1rX8aiXCVp49t898VAZetgrX6nlJhjqo4VgtHHvmj1mq4cGWM00bEiPyKkd3FOysFgzj2D91bfIarAt6mAkHP10QajEQsEs8icrYTcqkleYeLKzPzoNJRWsXvpD7+SoWRsb2CSaIb5LX9viD3ooW3rDOs1tuOEOz+Fe5XblfEHEReJsG2Ef61z2M32zZFF+UX2ZrVA33EmoM05VfyEZsEE2U3odMdGoposvJG/NNWwf2cMdFPxFqXoOFg1hDsP8bwir8Qk9f+HuG8zo50bzxPM+en3FdXrRUral0R8m30smOea7XeLE6mzFd289tV4mbrFlov3U61b2jM145m520pklk3/EA8QlhUuanzxpz1B3w81WFfMV12GGOyA7SnWe/r6PMty3K45XT9CIxFXnOYv4vG/tfBDpZer2RoUG7Jsl9epA4mvdTAgI9/SnPi9ah37XBYF2xJQH+5sWrb9jaEkL8fzpdpU+eo0mo5NA7WkKTqQHWc9uVsds6QdRGH0leDu+4hyMpVgVijG13Ypwkr+uzp0TQ3EMdM7QrB7LEVu/aTbIS0VXCGYBw48ouKYvf0k3YbWPj4Y/usSx0CaMOo06gx1kmuF0=
+    - "W10IfoBTrKajXT8szWrwKjHvdQBiD04sOO1aFB8TrBCEvpopd4YELVMA0R9kH6D1h3Ky6sQnqJmZOEqLdhND7ZF+AGknTvI1K3NPtHUU20iZmDxuJze34/ubD73zZ8tVYosUQtgrUTKj7qnL4V8Z10CRffW3ebSDshKRBVtLLoTmn6xtI4YxY3jYWLsF6piJt0mGFT6u/l8xu7tw8BdlVlMl/SyVQsnzNdpe/W2MfGwMmHQ6yq0e5Y3ImMkBDjhVwGjQtB4Ecg9+PjH79D9wW+uzPKeoRzvG0UB4rhikJ5FmS+6+WrMT3pQJ0ZNlqZy9wz2sH9uDVW9jhXRho6EeaM3iRjhx34VGpBdZJS52qGGi8RQuESqV38IM/lD3xOzXC8Fjjz08FPLulVdi4Cgt7tZfK4pxKUmwHB3XofOby7fSVUCDTkJwU2pbY6MTB973GbdljPP1Viw1mr/OPMcOmux4yQu6wMHiZzHPFnVN8SWzcP2Dstv9kWiZaSFdquwuXdYNfiAs8U5fA58zY/5guizrV7jugN/KO515+fafWLs9XEfU2shDgSj2/Ztqmv2I7vqV+8NkjjRJSSNNDz+b6p9lzZJlJ99PuOebfvk+z2z1qcfA3JuXSyGXPCYnwQO5xymygJBfMD0POSY82UikKRDBNJI1p2DaAlnt+U80AHM="
     # GITHUB_TOKEN
-    - secure: "y+VW4fCyYXm29VF/3LYcCQHorpdGNvXpky4CbVwQ7x3fo+00wntWBQE71N1oy0RNHoOnYtuHsPrHKJvCZHWyZPNe6H444iEYWKTjFblei+onYrrdIZO6azdPJRnlpvjwXyFUor8K8UuwgMtNZsUzQN+ZpgQhEkpR8uYyoXPrXh6q86+9RcGkMc2yg6O3y/ExiAj70rR/ACrgyKrEXY/CHU7qLW+jQDk0SCD78JqRIgxP/efZs6HEotB6uQldF1Fmw1zW2BXovdlWZ3itXqdP8b/GIaW8cyyxp7iK6eWUsvOsn1hZHpIeCDLIdM0crkaPeiK9xsH2vEKDVFk26Z82QCxDBV6txMdXAXTj8uqYFrcUH/2VF0c4L9iGJaJEMo16mIbgyBT/X+9fd0Trypo5MIqaVGCNIpVhagqpRzYEYkCdRDeN4/fibtNSC9eYAXgtiQ2L6DMoSb2tbiEY9o36KIWOFOxnX2V7Xz1X5BzmDfKnPm6KJB8G327LHOODjiQ6jUH6j8/1qGwo2RkQ7uwMErNtnws7OT2t6mn9Scrn5VI1pQRjYP22sb9lU0wqVLUurBHQpJ+9MdUHhnegW1zdIFqfBfBFzKD0yF0uaP2sWcBoFUu0sdXc2jFE4J/5ViUKHTMYgH6921s5sjRhHU+UGb3YIe/UiD179nyoVpYAffI="
+    - secure: "tBZxpaEmIsNl9/5Vb3BlOP5Q6k5aKvYLWhbOdvSw8uITW9nbrsySNPWvf5uzHqrTVTmnL7fS5Sout3TvJWUVmRknrW/JXrlM/LEEZooLK0WzoL48Hk/iQziO0fVBvsLs4RG4OQ4yGjQbjOwU5A/QnA0tzY5NXoJ74EgzF9VORRnRFiJiYsy5xN703CfkiiH/WFJOM9jZxg60JWRdPWsaYC5W/wMFqQTLw8BGZujqE8gwzL7a7h4QaCspHfJQQDNbYoulx1lP+dw5BXwMffTkMRr1ZJEBHwVbvF7zaRypomlTPab3ygH9m3vYQuXHAD85GjFsi5DQL7BSzMUF/dnjVe9gWJ0MVSTGRpkUEZQ+fLv0kBo/hth7hWeF+P0BLhnbiESj+K23JhqtruBCOJ9g81Tss/j/Sgloip16B2bUopUQa5VD7Sp1uLtpfSdBjBb3epJI0Pz/Nx4J+mlsWsQAKwO/gqYdrSnDkuqssF5jZVNgFYSqLjMBWSvLAjAbzCYBvSxIqd4eKi69OoLMOZlBfLepArTwmBflmQhs33nFCMYUW0ZhzYLHMnP70phFvZaaEVwnZew4qhj6wXqcCyvLS8U2I06BTJfu9O0Cwcz49SxVIugIUms3fdeBqQnPqXse4VlEAdgZc2wmtBkdTuZk9quV4IDr8JAtZFUXMAGBL30="
     # PYPI_PASSWD
-    - secure: "gTOJ3qAJ4qeL/Sbm8lEG11CYjeT7gB/TDEUp1b0JebP9JErhPbHZXMFYroCSRZF1tJjjqOjF2fQw85m78oodtwtC7Oalwn7QJ/NYvf4pjnD85Mu22Brf1qobplErBTJGNXmlillDigpS/83eWTZYJQ2nyNbOXUoATn1ckjib4Y2qKHyVnUR0OLBr2VgCpKgwiYC5ZRQN1q8D/2Vbu/N6gtC8CElJJQa72lAqgIPENilexCUbrm5WtNrWMDoulnZOBUDyQs8hchqmIIkB2n33oyZoP8wPpc2eCXxWmUsz5fl8UuSSQTtSsBP60lfMLped8YOMx0jmnLPetRCMt/N33nUy3bQs8QHa1tO/io72lARcKPPkFMxsIfy//GAHP8XVXfzgpcu/NFlNiMS31X6EeILAjAVAKbBTS8jz2NdI37eqPgJGFR5c/TvORtKpmHtiSMspwFRZiJDnSyEVOwCaHtNK1iwWTbawlEC4LXvFjdzO8aF2angC1s1Q9+AntCie/3Z4kZOxyEy8jd/lum26EP6KOOLN86rGEbOe5SdkmfZRuDRoJ+ceq2kT9i0FQJQ6aYHIql4y7xFABAxMOT86MmTrdnjgt2q9aYn1wwDVQEDHKmIFjVnC5uT8Ln7sJFo8Xs4IlOVxY2P6xkDWVr1TZyU/M6HM6b8AA+oV1vwBZPM="
+    - secure: "PLRDqMVqDu6t5i1sixypiIvmlRyPMnsS1G6CnPC8gYbVRQ4mqpNUdX17UxinQlnxB0crzeSzEwFQ7AUxJDNoGYr0q09olfD7w68yg/qsGfBd5Zke3P1oa19WzaizBAIgsC73wMb0tOa9HhoLV/5WlIENNtChtXtgv1z9Oc9upnpOietvUXD1zbsa82xK5QzNFqQF9aPu7Q3OaZ3e9NtPwoQVPMuRd0O3kj1vFqG2Kb0zbLfUjrrmuZgJzSIif9G8OmnAfRjNBqVItFuMsnA9WnolrPcx7tzySbMR+Mrax/tehO6MLb+P8kriSg9B1vBr5B2r8fDN14HWaQwsSyg58VmpQjdgjo1UJXPzB3jEYLY/lF4BqakIIL4se+Er13AVKWrJTI/IEMr1ztKlFKqMJPk4aLhG9DVLSOgebG7ZcH8ASKSnA6a2zVxog9FgaYZnZkIlO+lUfQpd338piqeK+wz5QaILIt3UVBln6nMB5GoqG8gyV7xUOjJyyRF5tx7tafRXGdCb6sRANiv5PKhYZBLvIscH7ITJt73EZBCrWRI2mqPgx+cjzOlA6OFo1eslGBR2ACLfE/+qAh0koP8JibqK/WWLen0cTAmdIVa2x3rNK1EepEi7Tow4G3fjwzrFvLzLc8DyFXt1Tt9swE6/QjNOb9Y8gC65PLjviDrNw8o="
     - PYPKG=derivcheck
-    - GITHUB_REPO_NAME=tovrstra/derivcheck
+    - GITHUB_REPO_NAME=theochem/derivcheck
 
 # Do not use Travis Python to save some time.
 language: generic
@@ -47,7 +47,7 @@ install:
 - hash -r
 
 # Configure conda and get a few essentials
-- conda config --set always_yes yes --set changeps1 no
+- conda config --set always_yes yes
 # Needed for compiler('c') function, temporary solution:
 # https://github.com/conda/conda-build/issues/2263
 - conda config --add channels c3i_test
@@ -114,28 +114,28 @@ deploy:
   prerelease: true
 - provider: script
   skip_cleanup: true
-  script: anaconda -t $ANACONDA_TOKEN upload -l alpha conda-bld/**/${PYPKG}-*.tar.bz2
+  script: anaconda -t $ANACONDA_TOKEN upload --force -l alpha conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG == *a* && $TRAVIS_OS_NAME == linux"
 - provider: script
   skip_cleanup: true
-  script: anaconda -t $ANACONDA_TOKEN upload -l beta conda-bld/**/${PYPKG}-*.tar.bz2
+  script: anaconda -t $ANACONDA_TOKEN upload --force -l beta conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG == *b* && $TRAVIS_OS_NAME == linux"
 - provider: script
   skip_cleanup: true
-  script: anaconda -t $ANACONDA_TOKEN upload conda-bld/**/${PYPKG}-*.tar.bz2
+  script: anaconda -t $ANACONDA_TOKEN upload --force conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG != *[ab]* && $TRAVIS_OS_NAME == linux"
 - provider: pypi
   skip_cleanup: true
-  user: tovrstra
+  user: theochem
   password: ${PYPI_PASSWD}
   on:
     repo: ${GITHUB_REPO_NAME}
