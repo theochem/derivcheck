@@ -21,14 +21,14 @@ requirements:
     - setuptools
 
 about:
-  dev_url: https://github.com/tovrstra/derivcheck
+  dev_url: https://github.com/theochem/derivcheck
   description: A robust and very sensitive tester for analytic partial derivatives
   license: GNU General Public License v3 or later (GPLv3+)
   license_family: GPL3
   summary: A robust and very sensitive tester for analytic partial derivatives
-  home: https://github.com/tovrstra/derivcheck
+  home: https://github.com/theochem/derivcheck
   license_file: LICENSE.txt
-  doc_url: https://github.com/tovrstra/derivcheck
+  doc_url: https://github.com/theochem/derivcheck
 
 extra:
   recipe-maintainers: Toon Verstraelen <toon.verstraelen@gmail.com>

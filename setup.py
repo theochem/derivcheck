@@ -82,7 +82,7 @@ if __name__ == '__main__':
         description='A robust and very sensitive tester for analytic derivatives.',
         author='Toon Verstraelen',
         author_email='Toon.Verstraelen@UGent.be',
-        url='https://github.com/tovrstra/derivcheck',
+        url='https://github.com/theochem/derivcheck',
         packages=['derivcheck'],
         install_requires=['numpy', 'nose'],
         python_requires='>=2.7',

@@ -1,9 +1,9 @@
 .. image:: https://travis-ci.org/theochem/derivcheck.svg?branch=master
     :target: https://travis-ci.org/theochem/derivcheck
-.. image:: https://ci.appveyor.com/api/projects/status/u6cxpy29rr0jjag1/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/tovrstra/derivcheck-fy7m8
-.. image:: https://anaconda.org/tovrstra/derivcheck/badges/version.svg
-    :target: https://anaconda.org/tovrstra/derivcheck
+.. image:: https://ci.appveyor.com/api/projects/status/8jdf02d6cq2sjc0i/branch/master?svg=true
+    :target: https://ci.appveyor.com/project/theochem-ci-bot/derivcheck
+.. image:: https://anaconda.org/theochem/derivcheck/badges/version.svg
+    :target: https://anaconda.org/theochem/derivcheck
 .. image:: https://codecov.io/gh/theochem/derivcheck/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/theochem/derivcheck
 
@@ -32,7 +32,7 @@ https://www.continuum.io/downloads)
 
 .. code:: bash
 
-    conda install -c tovrstra derivcheck
+    conda install -c theochem derivcheck
 
 
 Testing
