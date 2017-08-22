@@ -47,7 +47,7 @@ install:
 - hash -r
 
 # Configure conda and get a few essentials
-- conda config --set always_yes yes --set changeps1 no
+- conda config --set always_yes yes
 # Needed for compiler('c') function, temporary solution:
 # https://github.com/conda/conda-build/issues/2263
 - conda config --add channels c3i_test
@@ -114,21 +114,21 @@ deploy:
   prerelease: true
 - provider: script
   skip_cleanup: true
-  script: anaconda -t $ANACONDA_TOKEN upload -l alpha conda-bld/**/${PYPKG}-*.tar.bz2
+  script: anaconda -t $ANACONDA_TOKEN upload --force -l alpha conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG == *a* && $TRAVIS_OS_NAME == linux"
 - provider: script
   skip_cleanup: true
-  script: anaconda -t $ANACONDA_TOKEN upload -l beta conda-bld/**/${PYPKG}-*.tar.bz2
+  script: anaconda -t $ANACONDA_TOKEN upload --force -l beta conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
     condition: "$TRAVIS_TAG == *b* && $TRAVIS_OS_NAME == linux"
 - provider: script
   skip_cleanup: true
-  script: anaconda -t $ANACONDA_TOKEN upload conda-bld/**/${PYPKG}-*.tar.bz2
+  script: anaconda -t $ANACONDA_TOKEN upload --force conda-bld/**/${PYPKG}-*.tar.bz2
   on:
     repo: ${GITHUB_REPO_NAME}
     tags: true
