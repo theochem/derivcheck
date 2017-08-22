@@ -41,6 +41,7 @@ def readme():
     with open('README.rst') as f:
         return f.read()
 
+
 setup(
     name='derivcheck',
     version=get_gitversion('derivcheck', verbose=(__name__ == '__main__')),
