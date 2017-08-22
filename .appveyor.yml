@@ -1,7 +1,7 @@
 environment:
   global:
     PYPKG: derivcheck
-    GITHUB_REPO_NAME: tovrstra/derivcheck
+    GITHUB_REPO_NAME: theochem/derivcheck
 
   matrix:
     - PYTHON_VERSION: 2.7
