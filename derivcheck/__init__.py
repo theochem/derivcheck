@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # Derivcheck is robust and very sensitive tester for analytic derivatives.
 # Copyright (C) 2017 Toon Verstraelen <Toon.Verstraelen@UGent.be>.
 #
@@ -15,7 +16,6 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program; if not, see <http://www.gnu.org/licenses/>
-#
 # --
 """Robust and sensitive tester for first-order analytic partial derivatives."""
 
