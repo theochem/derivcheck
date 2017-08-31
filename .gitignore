@@ -7,3 +7,5 @@ build
 dist
 derivcheck/version.py
 conda-bld
+
+.idea/
