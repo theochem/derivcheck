@@ -33,7 +33,15 @@ from __future__ import print_function
 
 from setuptools import setup
 
-from tools.gitversion import get_gitversion
+def get_version():
+    """Load the version from version.py, without importing it.
+
+    This function assumes that the last line in the file contains a variable defining the
+    version string with single quotes.
+
+    """
+    with open('derivcheck/version.py', 'r') as f:
+        return f.read().split('=')[-1].replace('\'', '').strip()
 
 
 def readme():
@@ -44,7 +52,7 @@ def readme():
 
 setup(
     name='derivcheck',
-    version=get_gitversion('derivcheck', verbose=(__name__ == '__main__')),
+    version=get_version(),
     description='A robust and very sensitive tester for analytic derivatives.',
     long_description=readme(),
     author='Toon Verstraelen',
