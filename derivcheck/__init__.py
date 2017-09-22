@@ -142,7 +142,7 @@ class OneDimWrapper(object):
         return self.function(arg)
 
 
-def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol=1e-5, atol=1e-8):
+def assert_deriv(function, gradient, origin, widths=0.1, output_mask=None, rtol=1e-5, atol=1e-8):
     """Test the gradient of a function.
 
     Parameters
@@ -222,7 +222,7 @@ def assert_deriv(function, gradient, origin, widths=1e-4, output_mask=None, rtol
             # thresholds.
             if deriv_error >= atol and deriv_error >= rtol*abs(deriv).max():
                 raise FloatingPointError('Inaccurate estimate of the derivative for '
-                                         'iaxis={}.'.format(indices))
+                                         'index={}.'.format(indices))
             # Flatten the array with numerical derivatives.
             if output_mask is None:
                 deriv_approx = deriv_approx.ravel()
