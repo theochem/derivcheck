@@ -28,7 +28,11 @@ set(GIT_TAG_VERSION_PATCH "{git_tag_version_patch}")"""}
 
 def get_gitversion():
     """Return a conda-compatible version string derived from git describe --tags."""
-    git_describe = subprocess.check_output(['git', 'describe', '--tags']).strip()
+    try:
+        git_describe = subprocess.check_output(
+            ['git', 'describe', '--tags'], stderr=subprocess.STDOUT).strip()
+    except (subprocess.CalledProcessError, OSError):
+        return "notag", "notag"
     version_words = git_describe.decode('utf-8').strip().split('-')
     version = version_words[0]
     if len(version_words) > 1:
