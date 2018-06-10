@@ -1,7 +1,5 @@
 .. image:: https://travis-ci.org/theochem/derivcheck.svg?branch=master
     :target: https://travis-ci.org/theochem/derivcheck
-.. image:: https://ci.appveyor.com/api/projects/status/8jdf02d6cq2sjc0i/branch/master?svg=true
-    :target: https://ci.appveyor.com/project/theochem-ci-bot/derivcheck
 .. image:: https://anaconda.org/theochem/derivcheck/badges/version.svg
     :target: https://anaconda.org/theochem/derivcheck
 .. image:: https://codecov.io/gh/theochem/derivcheck/branch/master/graph/badge.svg
@@ -104,6 +102,10 @@ The function ``assert_deriv`` takes several optional arguments to tune its behav
 
 Release history
 ===============
+
+- **2017-09-21** 1.1.4
+
+  New template for travis.yml, only affects testing
 
 - **2017-08-22** 1.1.3
 
