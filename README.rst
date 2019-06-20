@@ -103,6 +103,11 @@ The function ``assert_deriv`` takes several optional arguments to tune its behav
 Release history
 ===============
 
+- **2019-06-20** 1.1.5
+
+  Fix a bug related to sharing references to the origin argument of OneDumWrapper.
+  Start using Roberto to drive the CI.
+
 - **2017-09-21** 1.1.4
 
   New template for travis.yml, only affects testing
