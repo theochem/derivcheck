@@ -1,5 +1,5 @@
 package:
-  version: "{{ load_setup_py_data().version }}"
+  version: "{{ PROJECT_VERSION }}"
   name: 'derivcheck'
 
 source:
@@ -7,18 +7,28 @@ source:
 
 build:
   number: 0
-  script: python setup.py install
+  noarch: python
+  script: "{{ PYTHON }} -m pip install . --no-deps"
 
 requirements:
+  host:
+    - python
+    - pip
+    - setuptools
   run:
     - python
     - numpy
-    - nose
-  build:
+
+test:
+  requires:
     - python
     - numpy
-    - nose
-    - setuptools
+    - pytest
+    - pytest-xdist
+  imports:
+    - derivcheck
+  commands:
+    - pytest -v --pyargs derivcheck -n auto
 
 about:
   dev_url: https://github.com/theochem/derivcheck

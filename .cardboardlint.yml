@@ -1,0 +1,19 @@
+linters:
+  - header:
+      extra: []
+      shebang: '#!/usr/bin/env python'
+  - import:
+      packages: ['roberto']
+  - pylint:
+      config: .pylintrc
+  - pycodestyle:
+      config: .pycodestylerc
+  - autopep8:
+      config: .pycodestylerc
+      line-range: [79, 100]
+  - pydocstyle:
+      config: .pydocstylerc
+  - whitespace:
+      filefilter: ['- *Makefile', '+ *']
+  - yamllint:
+      filefilter: ['- *conda.recipe/meta.yaml', '+ *.yml', '+ *.yaml']

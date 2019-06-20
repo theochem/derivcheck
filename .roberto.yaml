@@ -1,0 +1,17 @@
+project:
+  name: derivcheck
+  packages:
+    - dist_name: derivcheck
+      name: derivcheck
+      path: .
+      tools:
+        - write-py-version
+        - cardboardlint-static
+        - pytest
+        - upload-codecov
+        - cardboardlint-dynamic
+        - build-py-source
+        - build-conda
+        - deploy-pypi
+        - deploy-conda
+        - deploy-github

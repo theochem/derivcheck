@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # Derivcheck is robust and very sensitive tester for analytic derivatives.
 # Copyright (C) 2017 Toon Verstraelen <Toon.Verstraelen@UGent.be>.
 #
@@ -31,21 +30,24 @@ Alternatively, you can install from source with
 
 from __future__ import print_function
 
+import os
+
 from setuptools import setup
 
+
 def get_version():
-    """Load the version from version.py, without importing it.
+    """Read __version__ from version.py, with exec to avoid importing it."""
+    try:
+        with open(os.path.join('derivcheck', 'version.py'), 'r') as f:
+            myglobals = {}
+            exec(f.read(), myglobals)  # pylint: disable=exec-used
+        return myglobals['__version__']
+    except IOError:
+        return "0.0.0.post0"
 
-    This function assumes that the last line in the file contains a variable defining the
-    version string with single quotes.
 
-    """
-    with open('derivcheck/version.py', 'r') as f:
-        return f.read().split('=')[-1].replace('\'', '').strip()
-
-
-def readme():
-    """Load README.rst for display on PyPI."""
+def load_readme():
+    """Load README for display on PyPI."""
     with open('README.rst') as f:
         return f.read()
 
@@ -54,14 +56,13 @@ setup(
     name='derivcheck',
     version=get_version(),
     description='A robust and very sensitive tester for analytic derivatives.',
-    long_description=readme(),
+    long_description=load_readme(),
     author='Toon Verstraelen',
     author_email='Toon.Verstraelen@UGent.be',
     url='https://github.com/theochem/derivcheck',
     packages=['derivcheck'],
-    install_requires=['numpy', 'nose'],
+    install_requires=['numpy>=1.0'],
     python_requires='>=2.7',
-    zip_safe=False,
     classifiers=[
         'Environment :: Console',
         'Intended Audience :: Science/Research',

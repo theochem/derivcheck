@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-# -*- coding: utf-8 -*-
 # Derivcheck is robust and very sensitive tester for analytic derivatives.
 # Copyright (C) 2017 Toon Verstraelen <Toon.Verstraelen@UGent.be>.
 #

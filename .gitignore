@@ -7,5 +7,7 @@ build
 dist
 derivcheck/version.py
 conda-bld
-
+coverage*
 .idea/
+.pytest_cache
+activate-*-dev-*.sh

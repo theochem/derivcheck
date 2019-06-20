@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Derivcheck is robust and very sensitive tester for analytic derivatives.
 # Copyright (C) 2017 Toon Verstraelen <Toon.Verstraelen@UGent.be>.
 #
@@ -19,7 +18,7 @@
 # --
 """Unit tests for derivcheck."""
 
-from nose.tools import assert_raises
+import pytest
 import numpy as np
 
 from derivcheck import diff_ridders, assert_deriv
@@ -27,11 +26,11 @@ from .basic_example import main as example_main
 
 
 def test_ridders_corner_cases():
-    with assert_raises(ValueError):
+    with pytest.raises(ValueError):
         diff_ridders(np.sin, 0.0, 0.0)
-    with assert_raises(ValueError):
+    with pytest.raises(ValueError):
         diff_ridders(np.sin, 0.0, 1.0, con=0.9)
-    with assert_raises(ValueError):
+    with pytest.raises(ValueError):
         diff_ridders(np.sin, 0.0, 1.0, safe=0.9)
     assert diff_ridders(np.sin, 0.0, 1.0, maxiter=0) == (None, None)
 
@@ -46,37 +45,40 @@ def test_ridders_simple():
         np.testing.assert_allclose(deriv, np.cos(arg))
 
 
-def _check_assert_deriv_0d_harm(nrep, arg_shape, numtested):
-    _function = lambda arg: 0.5 * np.sum(arg**2)
-    _gradient = lambda arg: arg
-    for _ in range(nrep):
+@pytest.mark.parametrize("arg_shape", [(), (10, ), (3, 4), (2, 3, 4)])
+def test_assert_deriv_0d_harm(arg_shape):
+    def _function(arg):
+        return 0.5 * np.sum(arg**2)
+
+    def _gradient(arg):
+        return arg
+
+    for _ in range(10):
         origin = np.random.normal(0, 1, arg_shape)
-        assert assert_deriv(_function, _gradient, origin) == numtested
+        assert assert_deriv(_function, _gradient, origin) == np.product(arg_shape)
 
 
-def test_assert_deriv_0d_harm():
-    yield _check_assert_deriv_0d_harm, 10, (), 1
-    yield _check_assert_deriv_0d_harm, 10, (10, ), 10
-    yield _check_assert_deriv_0d_harm, 10, (3, 4), 12
-    yield _check_assert_deriv_0d_harm, 10, (2, 3, 4), 24
+@pytest.mark.parametrize("arg_shape", [(), (10, ), (3, 4), (2, 3, 4)])
+def test_assert_deriv_0d_exp(arg_shape):
+    def _function(arg):
+        return np.exp(arg).sum()
 
-
-def _check_assert_deriv_0d_exp(nrep, arg_shape, numtested):
-    _function = lambda arg: np.exp(arg).sum()
-    for _ in range(nrep):
+    for _ in range(10):
         origin = np.random.uniform(-1.0, 1.0, arg_shape)
-        assert assert_deriv(_function, np.exp, origin) == numtested
+        assert assert_deriv(_function, np.exp, origin) == np.product(arg_shape)
 
 
-def test_assert_deriv_0d_exp():
-    yield _check_assert_deriv_0d_exp, 10, (), 1
-    yield _check_assert_deriv_0d_exp, 10, (10, ), 10
-    yield _check_assert_deriv_0d_exp, 10, (3, 4), 12
-    yield _check_assert_deriv_0d_exp, 10, (2, 3, 4), 24
-
-
-def _check_assert_deriv_nd(nrep, arg_shape, output_mask, numtested):
-    _function = lambda arg: 0.5 * arg**2
+@pytest.mark.parametrize("arg_shape,output_mask,numtested", [
+    ((), None, 1),
+    ((10, ), None, 100),
+    ((3, 4), None, 144),
+    ((2, 3, 4), None, 576),
+    ((5, ), np.array([1, 1, 0, 0, 1], dtype=bool), 15),
+    ((2, 2), np.array([[1, 0], [0, 1]], dtype=bool), 8),
+])
+def test_assert_deriv_nd(arg_shape, output_mask, numtested):
+    def _function(arg):
+        return 0.5 * arg**2
 
     def _gradient(arg):
         result = np.zeros(arg_shape + arg_shape)
@@ -84,22 +86,21 @@ def _check_assert_deriv_nd(nrep, arg_shape, output_mask, numtested):
             result[idx + idx] = val
         return result
 
-    for _ in range(nrep):
+    for _ in range(10):
         origin = np.random.normal(0, 1, arg_shape)
         assert assert_deriv(_function, _gradient, origin, output_mask=output_mask) == numtested
 
 
-def test_assert_deriv_nd():
-    yield _check_assert_deriv_nd, 10, (), None, 1
-    yield _check_assert_deriv_nd, 10, (10, ), None, 100
-    yield _check_assert_deriv_nd, 10, (3, 4), None, 144
-    yield _check_assert_deriv_nd, 10, (2, 3, 4), None, 576
-    yield _check_assert_deriv_nd, 10, (5, ), np.array([1, 1, 0, 0, 1], dtype=bool), 15
-    yield _check_assert_deriv_nd, 10, (2, 2), np.array([[1, 0], [0, 1]], dtype=bool), 8
-
-
-def _check_assert_deriv_extra1(nrep, arg_shape, output_mask, numtested):
-    _function = lambda arg: 0.5 * (arg**2).sum(axis=-1)
+@pytest.mark.parametrize("arg_shape,output_mask,numtested", [
+    ((3,), None, 3),
+    ((4, 3), None, 48),
+    ((2, 4, 3), None, 192),
+    ((4, 3), np.array([1, 0, 0, 1], dtype=bool), 24),
+    ((2, 2, 3), np.array([[1, 1], [0, 0]], dtype=bool), 24),
+])
+def test_assert_deriv_extra1(arg_shape, output_mask, numtested):
+    def _function(arg):
+        return 0.5 * (arg**2).sum(axis=-1)
 
     def _gradient(arg):
         result = np.zeros(arg_shape[:-1] + arg_shape, float)
@@ -107,38 +108,32 @@ def _check_assert_deriv_extra1(nrep, arg_shape, output_mask, numtested):
             result[idx[:-1] + idx] = val
         return result
 
-    for _ in range(nrep):
+    for _ in range(10):
         arg = np.random.normal(0, 1, arg_shape)
         assert assert_deriv(_function, _gradient, arg, output_mask=output_mask) == numtested
 
 
-def test_assert_deriv_extra1():
-    yield _check_assert_deriv_extra1, 10, (3,), None, 3
-    yield _check_assert_deriv_extra1, 10, (4, 3), None, 48
-    yield _check_assert_deriv_extra1, 10, (2, 4, 3), None, 192
-    yield _check_assert_deriv_extra1, 10, (4, 3), np.array([1, 0, 0, 1], dtype=bool), 24
-    yield _check_assert_deriv_extra1, 10, (2, 2, 3), np.array([[1, 1], [0, 0]], dtype=bool), 24
+@pytest.mark.parametrize("arg_shape,output_mask,numtested", [
+    ((), None, 1),
+    ((10, ), None, 100),
+    ((3, 4), None, 144),
+    ((2, 3, 4), None, 576),
+    ((5, ), np.array([0, 1, 1, 0, 0], dtype=bool), 10),
+    ((2, 2), np.array([[0, 1], [1, 0]], dtype=bool), 8),
+])
+def test_assert_deriv_nd_zeros(arg_shape, output_mask, numtested):
+    def _function(_arg):
+        return np.ones(arg_shape)
 
+    def _gradient(_arg):
+        return np.zeros(arg_shape + arg_shape)
 
-def _check_assert_deriv_nd_zeros(nrep, arg_shape, output_mask, numtested):
-    _function = lambda arg: np.ones(arg_shape)
-    _gradient = lambda arg: np.zeros(arg_shape + arg_shape)
-    for _ in range(nrep):
+    for _ in range(10):
         args = np.random.normal(0, 1, arg_shape)
         assert assert_deriv(_function, _gradient, args, output_mask=output_mask) == numtested
 
 
-def test_assert_deriv_nd_zeros():
-    yield _check_assert_deriv_nd_zeros, 10, (), None, 1
-    yield _check_assert_deriv_nd_zeros, 10, (10, ), None, 100
-    yield _check_assert_deriv_nd_zeros, 10, (3, 4), None, 144
-    yield _check_assert_deriv_nd_zeros, 10, (2, 3, 4), None, 576
-    yield _check_assert_deriv_nd_zeros, 10, (5, ), np.array([0, 1, 1, 0, 0], dtype=bool), 10
-    yield _check_assert_deriv_nd_zeros, 10, (2, 2), np.array([[0, 1], [1, 0]], dtype=bool), 8
-
-
 def test_assert_deriv_nd_weights():
-
     # function is indeterminate for arg[0] <= 1
     def _function(arg):
         with np.errstate(divide='raise'):
@@ -152,7 +147,7 @@ def test_assert_deriv_nd_weights():
     # do searches near the indeterminate region
     arg = np.array([1.03, 4.0, 1.0])
     # romin searches into arg[0] < 1
-    with assert_raises(FloatingPointError):
+    with pytest.raises(FloatingPointError):
         assert_deriv(_function, _gradient, arg, 0.1)
     # reduce widths on arg[0] so that romin does not search so far
     widths = np.array([1.e-4, 1.0, 1.0])
@@ -163,9 +158,11 @@ def test_assert_deriv_nd_weights():
 
 
 def test_assert_deriv_corner_cases():
-    _function = lambda arg: np.exp(arg).sum()
+    def _function(arg):
+        return np.exp(arg).sum()
+
     arg = np.ones((3, 3))
-    with assert_raises(FloatingPointError):
+    with pytest.raises(FloatingPointError):
         assert_deriv(_function, np.exp, arg, 0.1, rtol=0, atol=0)
 
 
@@ -175,10 +172,12 @@ def test_example():
 
 def test_state_issue():
     pos = np.array([2.1, 1.3])
-    def _function(x):
-        pos[:] = x
+
+    def _function(arg):
+        pos[:] = arg
         return (pos**2).sum()
-    def _gradient(x):
-        pos[:] = x
+
+    def _gradient(arg):
+        pos[:] = arg
         return 2*pos
     assert assert_deriv(_function, _gradient, pos, 1e-3) == 2

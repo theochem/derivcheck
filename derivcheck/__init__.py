@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # Derivcheck is robust and very sensitive tester for analytic derivatives.
 # Copyright (C) 2017 Toon Verstraelen <Toon.Verstraelen@UGent.be>.
 #
@@ -115,7 +114,7 @@ def diff_ridders(function, origin, stepsize, con=1.4, safe=2.0, maxiter=15):
     return estimate, error
 
 
-class OneDimWrapper(object):
+class OneDimWrapper:
     """Construct a function of a one-dimensional argument from an array function."""
 
     def __init__(self, function, origin, indices):
