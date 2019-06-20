@@ -61,7 +61,7 @@ setup(
     author_email='Toon.Verstraelen@UGent.be',
     url='https://github.com/theochem/derivcheck',
     packages=['derivcheck'],
-    install_requires=['numpy>=1.0'],
+    install_requires=['numpy>=1.0', 'pytest'],
     python_requires='>=2.7',
     classifiers=[
         'Environment :: Console',

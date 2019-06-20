@@ -40,7 +40,7 @@ The tests can be executed as follows:
 
 .. code:: bash
 
-    nosetests derivcheck
+    pytest derivcheck
 
 
 Background and usage
