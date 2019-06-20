@@ -171,3 +171,14 @@ def test_assert_deriv_corner_cases():
 
 def test_example():
     example_main()
+
+
+def test_state_issue():
+    pos = np.array([2.1, 1.3])
+    def _function(x):
+        pos[:] = x
+        return (pos**2).sum()
+    def _gradient(x):
+        pos[:] = x
+        return 2*pos
+    assert assert_deriv(_function, _gradient, pos, 1e-3) == 2

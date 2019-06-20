@@ -132,7 +132,7 @@ class OneDimWrapper(object):
 
         """
         self.function = function
-        self.origin = origin
+        self.origin = origin.copy()
         self.indices = indices
 
     def __call__(self, arg1):
