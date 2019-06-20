@@ -49,7 +49,7 @@ env:
     # TWINE_PASSWORDhttps://anaconda.org/account/logout
     # yamllint disable-line rule:line-length
     - secure: "cVxNyCpJcILwpI1o6GP1BqcI/9W+9dhp4dGJZ8tAw5LJ5UU4psqAhd4iing7Vgqfn3Tvbew8zOUqEeDkAGypqZIx/ALbSBn09obFUcEcBP5fjSmFNN05S6QI558KUUi8sj59bYIrlRYXiDBYKLpje8QbvDA/LghACK3LCtOEIqO7rs/lDM71I2GXBGMWa4rOa6eh3YNDK5Jkp1XmdCmMKlJeJCQqIlEB3rl3vE8MwZNBTWza9M6Ti4Jm81pQ5SPS107vhjq+TT6d/pjko1GJQFsK+8J484IjLd8nGDijS4iIzsxbZPu+Y16x0UoXQe9LFfYnJV3q+u4xJSAxJtOybEKRClvzb4n6Og/ywXrsx7sGUrdoa0JYnUAO1VyQGoiTrK/R9yPPEGcYFv7GPE2TyAQb3TXwddNu5JyZoz2czDtgEeKWO+CTwF0dEKkVLludCs5WkIGk3OMtHxX5C1DnYJjQ9JUt5Y4vlcvL2wLdH7i/cJ5XtVkwTRyZtOMIOUQ608YAJW4S0HtObzbs3Xs/v4geDBrOTRRwfd6LKWIR6IHaR4Lwjax3nSOcyydUgGrSGT6/6ylj9LKp7uACjxIhOCIJvDJtIBgwxqPLVYpL+Eb2obAtUVa7XUhTVTfBIHTy97u1SztZbLYo5SxjCNuPAiZnkvZm2QvlPd6U3fBxaQ4="
-    # - TWINE_USERNAME: theochem
+    - TWINE_USERNAME: theochem
 
 cache:
   # More time is needed for caching due to
