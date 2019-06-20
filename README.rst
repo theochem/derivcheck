@@ -1,9 +1,15 @@
-.. image:: https://travis-ci.org/theochem/derivcheck.svg?branch=master
-    :target: https://travis-ci.org/theochem/derivcheck
+.. image:: https://travis-ci.com/theochem/derivcheck.svg?branch=master
+    :target: https://travis-ci.com/theochem/derivcheck
 .. image:: https://anaconda.org/theochem/derivcheck/badges/version.svg
     :target: https://anaconda.org/theochem/derivcheck
 .. image:: https://codecov.io/gh/theochem/derivcheck/branch/master/graph/badge.svg
     :target: https://codecov.io/gh/theochem/derivcheck
+.. image:: https://img.shields.io/pypi/v/derivcheck.svg
+    :target: https://pypi.org/project/derivcheck
+.. image:: https://img.shields.io/pypi/pyversions/derivcheck.svg
+    :target: https://pypi.org/project/derivcheck
+.. image:: https://img.shields.io/github/release/theochem/derivcheck.svg
+    :target: https://github.com/theochem/derivcheck/releases
 
 Derivcheck provides a robust and very sensitive checker of analytic partial
 derivates. It is intended to be used in unit tests of other projects. See
