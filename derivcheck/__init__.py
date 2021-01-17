@@ -187,21 +187,22 @@ def assert_deriv(function, gradient, origin, widths=0.1, output_mask=None, rtol=
     # Compute the gradient and give it the 1D or 2D shape. The first index is a raveled
     # output index.
     gradient = np.asarray(gradient(origin))
+    # Check the gradient shape
+    # pylint: disable=invalid-unary-operand-type
+    if origin.ndim > 0 and origin.shape != gradient.shape[-origin.ndim:]:
+        return TypeError(
+            f"The end of gradient.shape {gradient.shape} should "
+            f"match origin.shape {origin.shape}."
+        )
     if output_mask is not None:
         gradient = gradient[output_mask]
-    if origin.ndim == 0:
-        gradient = gradient.ravel()
-    else:
-        gradient = gradient.reshape(-1, origin.size)
+    gradient = gradient.reshape(-1, origin.size)
 
     # Flat loop ofer all elements of the input array
     numtested = 0
     for iaxis in range(origin.size):
         # Get the corresponding input array indices.
-        if origin.ndim == 0:
-            indices = ()
-        else:
-            indices = np.unravel_index(iaxis, origin.shape)
+        indices = np.unravel_index(iaxis, origin.shape)
 
         # Determine the step size
         if isinstance(widths, float):
@@ -228,6 +229,11 @@ def assert_deriv(function, gradient, origin, widths=0.1, output_mask=None, rtol=
             else:
                 deriv_approx = deriv_approx[output_mask]
             # Compare
+            if deriv_approx.shape != deriv.shape:
+                raise TypeError(
+                    f'Unexpected shape of derivative component index={indices}. '
+                    f'Got {deriv.shape} and expecting {deriv_approx.shape}.'
+                )
             err_msg = 'derivative toward {} x=analytic y=numeric stepsize={:g}'.format(
                 indices, stepsize)
             np.testing.assert_allclose(deriv, deriv_approx, rtol, atol, err_msg=err_msg)

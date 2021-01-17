@@ -181,3 +181,14 @@ def test_state_issue():
         pos[:] = arg
         return 2*pos
     assert assert_deriv(_function, _gradient, pos, 1e-3) == 2
+
+
+def test_vecfn():
+    def function(arg):
+        return arg * np.array([1.1, 2.2, 3.4])
+
+    def gradient(_arg):
+        return np.array([1.1, 2.2, 3.4])
+
+    pos = 2.7748
+    assert assert_deriv(function, gradient, pos, 1e-3) == 3
